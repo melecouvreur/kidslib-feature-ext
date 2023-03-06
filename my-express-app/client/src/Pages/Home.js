@@ -9,6 +9,6 @@ function Home() {
       <MyLibraryWidget />
       <Search />
     </div>
-  );
+  )
 }
 export default Home;
