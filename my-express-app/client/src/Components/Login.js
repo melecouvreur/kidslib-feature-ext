@@ -29,8 +29,8 @@ function Login() {
       console.log(data.message, data.token)
       }
      }
-     catch (error) {
-      console.log(error)
+     catch (err) {
+      console.log(err)
     }
   };
 

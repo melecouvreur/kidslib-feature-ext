@@ -27,11 +27,11 @@ router.post("/register", async (req, res) => {
   }); 
  
 
-router.post("users/login", async (req, res) => {
+router.post("/login", async (req, res) => {
     const { username, password } = req.body;
     try {
       const results = await db(
-        `SELECT * FROM users WHERE username = "${username}"`
+      `SELECT * FROM users WHERE username = "${username}";`
       );
       const user = results.data[0];
       //if user found, compare pw
