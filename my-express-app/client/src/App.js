@@ -6,6 +6,7 @@ import MyLibraryView from "./Pages/MyLibraryView";
 import BookDetailView from "./Pages/BookDetailView";
 import DashBoard from "./Pages/DashBoard";
 import Layout from "./Components/Layout";
+import Navbar from "./Components/Navbar";
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
    <>
   
     <BrowserRouter>
+      <Navbar/>
       <Routes>
         <Route path="/" element={<DashBoard/>} />
         <Route path="/private" element={<Home />}/>
