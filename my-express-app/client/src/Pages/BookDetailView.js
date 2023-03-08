@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import Navbar from "../Components/Navbar";
 import "./detailView.css";
 
 function BookDetailView() {
@@ -113,17 +114,11 @@ function BookDetailView() {
     <div className="container">
       <div id="nav" className="col mt-4">
         {/* The styling for the buttons here could be better...kind of weird at different screen sizes */}
-        <Link to="/">
-          <button className="btn btn-warning">
-            <h5>Home</h5>
-          </button>
-        </Link>
-        <Link to="/myLibrary">
-          <button className="btn btn-warning ms-3 me-3">
-            <h5>My Library</h5>
-          </button>
-        </Link>
+        <Navbar/>
       </div>
+
+    
+      
       <div id="bookDetails" className="col w-75 mt-6 mb-6">
         {success ? (
           <div id="success" className="rounded bg-info mb-4">

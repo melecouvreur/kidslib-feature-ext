@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../Components/mylibrary.css";
+import Navbar from "../Components/Navbar";
 
 function MyLibraryView() {
   const [books, setBooks] = useState([]); //All books to be rendered
@@ -112,17 +113,7 @@ function MyLibraryView() {
           </div>
 
           <div className="offset-md-6 offset-sm-5 offset-5 col-2">
-            <Link to="/">
-              <button className="btn btn-warning m-2">
-                <h5>Home</h5>
-              </button>
-            </Link>
-
-            <Link to="/login">
-              <button className="btn btn-warning m-2">
-                <h5>Login</h5>
-              </button>
-            </Link>
+            <Navbar/>
           </div>
         </div>
         {loading ? (
