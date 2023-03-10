@@ -19,13 +19,15 @@ const requestData = async () => {
           },
         }; 
         try {
-          const result = await fetch("/users/private", options);
+            // error - had to removed users/privtate and replace with /private but now routes not protected?
+          const result = await fetch("/private", options);
           const data = await result.json();
     
           if (!result.ok) {
           console.log(data.error);
           setIsLoggedIn(false)
           setMessage(data.error)
+          //navigate("/")
           console.log(isLoggenIn)
         }
 
@@ -42,7 +44,7 @@ const requestData = async () => {
 
 return (
         <div> {!isLoggenIn ? 
-        ( <h3 className="d-flex p-4 justify-content-center pt-5"> {message} </h3>)
+        (<h3 className="d-flex p-4 justify-content-center pt-5"> {message} </h3>)
         :  <Outlet/> } 
         </div>
     )

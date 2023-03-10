@@ -23,20 +23,16 @@ function joinToJson(results) {
 
   // Create array of book objs
   let books = [];
-  if (row0.bId) {
+  if (row0.libraryId) {
       books = results.data.map(b => ({
-          id: b.bId,
-          bookId: b.bookId,
-          rating: b.rating,
-          review: b.review
+          userId: b.userId,
+          libraryId: b.libraryId,
+          bookId: b.bookId
       }));
   }
-
     // Create user obj
     let user = {
-      id: row0.uId,
-      username: row0.username,
-      password: row0.password,
+      id: row0.userId,
       books
   };
 
@@ -49,6 +45,7 @@ async function ensureUserExists(req, res, next) {
       if (results.data.length === 1) {
           // user was found; save it in response obj for the route function to use
           res.locals.user = results.data[0];
+          //res.send({message: "User found"})
           // Let next middleware function run
           next();
       } else {
@@ -62,9 +59,8 @@ async function ensureUserExists(req, res, next) {
 
 // ROUTES
 
-
 /* GET all users */
-router.get('/', function(req, res, next) {
+router.get('/all', function(req, res, next) {
   try {
     sendAllUsers(res)
   }
@@ -122,21 +118,22 @@ router.get('/:id', ensureUserExists, async function(req, res) {
     let user = res.locals.user;
     try {
         // Get user; use LEFT JOIN to also return books. bu = books_users
-        let sql = 
+       let sql = 
        `UNLOCK TABLES; 
-        SELECT users.*, mylibrary.*
+        SELECT users.id AS userId, mylibrary.id AS libraryId, mylibrary.bookId
         FROM users
         LEFT JOIN books_users
         ON users.id = books_users.uId
         LEFT JOIN mylibrary
         ON books_users.bId = mylibrary.id
-        WHERE users.id = ${user.id}`;
+        WHERE users.id = ${user.id};`
 
         let results = await db(sql);
-        // user = joinToJson(results);
+        //user = joinToJson(results);
 
         //res.send(user);
-          res.send(results)
+        res.status(200).send(results)
+        console.log(results)
     } catch (err) {
         res.status(500).send({ error: err.message });
     }
