@@ -1,4 +1,5 @@
 import {React, useEffect, useState, useNavigate} from "react";
+import { Outlet } from "react-router-dom";
 
 function PrivateRoute({children}) {
 
@@ -33,8 +34,9 @@ const requestData = async () => {
       };
 
 return (
-        <>
-        </>
+        <div> 
+            <Outlet/>
+        </div>
     )
 }
 

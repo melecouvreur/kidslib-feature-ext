@@ -63,7 +63,7 @@ function Auth() {
       else {
       console.log(data.message)
       changeRegistered()
-      navigate("/")
+      //navigate("/home")
       }
      }
      catch (err) {
@@ -122,7 +122,7 @@ function Auth() {
     
       </div> ) : 
       (
-      <div>
+      <div className="align-self-center p-4">
       <h3> Sign- in </h3>
       <div>
         <label> Username </label>
