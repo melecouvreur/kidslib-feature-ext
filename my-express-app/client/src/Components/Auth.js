@@ -39,8 +39,8 @@ function Auth() {
       setError(data.error);
       else {
       localStorage.setItem("token", data.token)
-      setIsLoggedIn(true);
-      navigate("/home")
+      //setIsLoggedIn(true);
+      navigate("/private/home")
       console.log(data.message, data.token)
       }
      }

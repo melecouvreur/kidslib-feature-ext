@@ -1,10 +1,11 @@
 import {React, useEffect, useState, useNavigate} from "react";
 import { Outlet } from "react-router-dom";
 
-function PrivateRoute({children}) {
+function PrivateRoute() {
 
 const [error, setError] = useState("");
 const [message, setMessage] = useState("");
+const [isLoggenIn, setIsLoggedIn] = useState(true)
 //const navigate = useNavigate();
 
 useEffect(() => {
@@ -21,12 +22,17 @@ const requestData = async () => {
           const result = await fetch("/users/private", options);
           const data = await result.json();
     
-          if (!result.ok) 
+          if (!result.ok) {
           console.log(data.error);
+          setIsLoggedIn(false)
+          console.log(isLoggenIn)
+        }
 
-          else 
+          else {
           console.log(data.message);
-          return children
+          setIsLoggedIn(true)
+          console.log(isLoggenIn)
+        }
     
         } catch (error) {
           console.log(error);
@@ -34,8 +40,7 @@ const requestData = async () => {
       };
 
 return (
-        <div> 
-            <Outlet/>
+        <div> {!isLoggenIn ? "" :  <Outlet/> } 
         </div>
     )
 }
