@@ -9,14 +9,14 @@ const bcrypt = require("bcrypt");
 const saltRounds = 7;
 const supersecret = process.env.SUPER_SECRET;
 
-//GUARDS - NB- move to seperate js file
+//GUARDS - NB - move to seperate js file
 
 async function sendAllUsers(res) {
   let results = await db('SELECT * FROM users ORDER BY id');
   res.send(results.data);
 }
 
-// Convert DB results into a useful JSON format: author obj with nested array of book objs
+// Convert DB results into a useful JSON format: user obj with nested array of book objs
 function joinToJson(results) {
   // Get first row
   let row0 = results.data[0];
@@ -58,6 +58,10 @@ async function ensureUserExists(req, res, next) {
       res.status(500).send({ error: err.message });
   }
 }
+
+
+// ROUTES
+
 
 /* GET all users */
 router.get('/', function(req, res, next) {
@@ -114,12 +118,12 @@ router.post("/login", async (req, res) => {
 
 // GET user by ID
 router.get('/:id', ensureUserExists, async function(req, res) {
-    // If we get here we know the user exists (thanks to guard)
+    // check user exists
     let user = res.locals.user;
     try {
         // Get user; use LEFT JOIN to also return books. bu = books_users
         let sql = 
-       `UNLOCK TABLES 
+       `UNLOCK TABLES; 
         SELECT users.*, mylibrary.*
         FROM users
         LEFT JOIN books_users
@@ -129,7 +133,6 @@ router.get('/:id', ensureUserExists, async function(req, res) {
         WHERE users.id = ${user.id}`;
 
         let results = await db(sql);
-        // Convert DB results into "sensible" JSON
         // user = joinToJson(results);
 
         //res.send(user);
