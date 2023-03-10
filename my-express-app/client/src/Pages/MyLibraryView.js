@@ -139,7 +139,7 @@ function MyLibraryView() {
                 </p>
                 <img src={book.volumeInfo.imageLinks?.thumbnail} />
                 <div className="row mt-4">
-                  <Link to={`/myLibrary/${book.id}`}>
+                  <Link to={`${book.id}`}>
                     <button id="seeMore" className="btn btn-primary col">
                       See More
                     </button>

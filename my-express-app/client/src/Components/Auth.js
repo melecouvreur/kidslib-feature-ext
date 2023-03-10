@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Auth() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false) 
   const [isRegistered, setIsRegistered] = useState(true)
   const [credentials, setCredentials] = useState({
     username: "",
@@ -9,10 +10,9 @@ function Auth() {
     password: "",
   });
  
- const [isLoggenIn, setIsLoggedIn] = useState(false)
+ 
  const [error, setError] = useState("");
  const [message, setMessage] = useState("");
-
  const navigate = useNavigate();
 
 
@@ -39,7 +39,7 @@ function Auth() {
       setError(data.error);
       else {
       localStorage.setItem("token", data.token)
-      //setIsLoggedIn(true);
+      setIsLoggedIn(true);
       navigate("/private")
       console.log(data.message, data.token)
       }

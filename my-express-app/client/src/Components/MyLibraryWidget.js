@@ -78,7 +78,7 @@ function MyLibraryWidget() {
             </div>
           ))}
           <div id="linkToLibraryView" className="mt-4">
-            <Link to="/myLibrary">
+            <Link to="myLibrary">
               <button className="btn btn-warning">
                 <h5>Visit my library</h5>
               </button>
