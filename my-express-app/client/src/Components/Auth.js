@@ -15,10 +15,7 @@ function Auth() {
 
  const navigate = useNavigate();
 
- useEffect(() => {
-  requestData();
-}, []);
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
@@ -43,7 +40,7 @@ function Auth() {
       else {
       localStorage.setItem("token", data.token)
       setIsLoggedIn(true);
-      navigate("/private")
+      navigate("/home")
       console.log(data.message, data.token)
       }
      }
@@ -74,33 +71,18 @@ function Auth() {
     }
   };
 
-  const requestData = async () => {
-    let options = {
-      headers: {
-        authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    };
-    try {
-      const result = await fetch("/users/private", options);
-      const data = await result.json();
 
-      if (!result.ok) setMessage(data.error);
-      else setMessage(data.message);
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
 
   return (
-    <div>
+    <div className="d-flex p-4 justify-content-center text-left">
 
       {!isRegistered ? 
       (
-      <div>
+      <div className="align-self-center p-4">
         <h3> Register </h3>
 
+       
         <label> Username </label>
         <input
           value={credentials.username}

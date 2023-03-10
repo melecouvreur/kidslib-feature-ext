@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MyLibraryView from "./Pages/MyLibraryView";
 import BookDetailView from "./Pages/BookDetailView";
 import DashBoard from "./Pages/DashBoard";
-import Layout from "./Components/Layout";
+//import PrivateRoute from "./Components/PrivateRoute";
 import Navbar from "./Components/Navbar";
 
 function App() {
@@ -16,12 +16,14 @@ function App() {
    <>
   
     <BrowserRouter>
-      <Navbar/>
+      {/*<Navbar/>*/}
       <Routes>
         <Route path="/" element={<DashBoard/>} />
-        <Route path="/private" element={<Home />}/>
-        <Route path="/myLibrary" element={<MyLibraryView />}  />
-        <Route path="/myLibrary/:id" element={<BookDetailView />}/>
+       
+          <Route path="/home" element={<Home />}/>
+          <Route path="/myLibrary" element={<MyLibraryView />}  />
+          <Route path="/myLibrary/:id" element={<BookDetailView />}/>
+   
       </Routes>
     </BrowserRouter>
  

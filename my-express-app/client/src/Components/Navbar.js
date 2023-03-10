@@ -27,7 +27,7 @@ const navigate = useNavigate();
               </button>
         </div>
 
-         <NavLink to="/private">
+        <NavLink to="/home">
           <button className="btn btn-warning">
             <h5>Home</h5>
           </button>
