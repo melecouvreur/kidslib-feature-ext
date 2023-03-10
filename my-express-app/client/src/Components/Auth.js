@@ -40,7 +40,7 @@ function Auth() {
       else {
       localStorage.setItem("token", data.token)
       //setIsLoggedIn(true);
-      navigate("/private/home")
+      navigate("/private")
       console.log(data.message, data.token)
       }
      }
@@ -63,7 +63,7 @@ function Auth() {
       else {
       console.log(data.message)
       changeRegistered()
-      //navigate("/home")
+      navigate("/")
       }
      }
      catch (err) {

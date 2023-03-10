@@ -27,13 +27,13 @@ const navigate = useNavigate();
               </button>
         </div>
 
-        <NavLink to="/home">
+        <NavLink to="/private">
           <button className="btn btn-warning">
             <h5>Home</h5>
           </button>
         </NavLink>
 
-         <NavLink to="/myLibrary">
+         <NavLink to="myLibrary">
           <button className="btn btn-warning">
             <h5>My Library</h5>
           </button>
