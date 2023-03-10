@@ -95,7 +95,7 @@ function BookDetailView() {
     }
   };
   //For review input field
-  // Having trouble rendering review conditionally below because this updates immediately.
+  //Having trouble rendering review conditionally below because this updates immediately.
   const handleChange = (e) => {
     setReview(e.target.value);
   };
@@ -114,6 +114,8 @@ function BookDetailView() {
     <div className="container">
       <div id="nav" className="col mt-4">
         {/* The styling for the buttons here could be better...kind of weird at different screen sizes */}
+        {/* Replace Navbar with different Navlink problems with hierarchy ? */}
+        
         <Navbar/>
       </div>
 

@@ -6,7 +6,6 @@ import Navbar from "../Components/Navbar";
 function Home() {
   return (
     <div className="App">
-      <h1>My Library App</h1>
       <Navbar/>
       <MyLibraryWidget />
       <Search />

@@ -1,0 +1,21 @@
+(1,'YOHACwAAQBAJ',4,'I loved it! More David.'),
+(6,'W20ZEwsvUo0C',NULL,'This book is so silly! Milo loved the alligator in the bathtub and the monkey on the lamp. Definitely read again.'),
+(18,'adpNnQEACAAJ',NULL,'Soooo silly! '),
+(31,'n6OMklDlgiYC',NULL,NULL),
+(32,'c9QPnwEACAAJ',NULL,NULL),
+(35,'gk6MDwAAQBAJ',NULL,'The music in this book is really fun.'),
+(36,'ZbwvDwAAQBAJ',NULL,NULL),
+(37,'XbwvDwAAQBAJ',NULL,NULL),
+(42,'BT0iEAAAQBAJ',NULL,NULL),
+(48,'y1IjEyaQxuIC',NULL,'This is a fun, silly read. Milo likes the end. '),
+(49,'p2fybyg_fZQC',NULL,NULL),
+(50,'BDshngEACAAJ',NULL,NULL),
+(52,'Nd_ACwAAQBAJ',NULL,NULL),
+(53,'iZM6swEACAAJ',NULL,NULL),
+(55,'R3IkAQAAMAAJ',NULL,'Loved it so much I got it tattooed on my arm.'),
+(56,'s_H3_SKNdWIC',NULL,NULL),
+(57,'M-CocWLBGB4C',NULL,NULL),
+(58,'UQu8wlL_nE8C',NULL,'This book is so silly! We loved the colorful pictures and funny story.'),
+(59,'j0oTAgAAQBAJ',NULL,'I love it.');
+
+1,6,18,31,32,35,36,37,42,48,49,50,52,53,55,56,57,58,59

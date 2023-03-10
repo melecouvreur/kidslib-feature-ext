@@ -106,6 +106,7 @@ function MyLibraryView() {
 
   return (
     <div className="App">
+        <Navbar/>
       <div className="container mt-4 mb-4">
         <div className="row">
           <div className="col-md-4">
@@ -113,7 +114,7 @@ function MyLibraryView() {
           </div>
 
           <div className="offset-md-6 offset-sm-5 offset-5 col-2">
-            <Navbar/>
+          
           </div>
         </div>
         {loading ? (
@@ -139,7 +140,7 @@ function MyLibraryView() {
                 </p>
                 <img src={book.volumeInfo.imageLinks?.thumbnail} />
                 <div className="row mt-4">
-                  <Link to={`${book.id}`}>
+                  <Link to={`${book.id}`} >
                     <button id="seeMore" className="btn btn-primary col">
                       See More
                     </button>

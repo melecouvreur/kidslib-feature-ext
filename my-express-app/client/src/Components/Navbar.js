@@ -16,10 +16,11 @@ const [isLoggedIn, setIsLoggedIn] = useState(false)
       };
 
     return(
-        <>
-        <nav>
-            <h5> navbar </h5>
-        <div className="mt-4">
+        <div className="flex-row" >
+            <h1 className="text-center">My Library App</h1>
+        <nav className="navbar nav-masthead">
+       
+        <div className="mt-4 align-self-center">
               <button 
               className="btn btn-warning"
               onClick={logout}
@@ -28,19 +29,25 @@ const [isLoggedIn, setIsLoggedIn] = useState(false)
               </button>
         </div>
 
+        <div className="mt-4 align-self-center">
         <NavLink to="/private">
           <button className="btn btn-warning">
             <h5>Home</h5>
           </button>
         </NavLink>
+        </div>
 
+        <div className="mt-4 align-self-center">
          <NavLink to="myLibrary">
           <button className="btn btn-warning">
             <h5>My Library</h5>
           </button>
         </NavLink>
+        </div>
+
+        
         </nav>
-        </>
+        </div>
     )
 }
 

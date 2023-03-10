@@ -75,15 +75,15 @@ function Auth() {
 
 
   return (
-    <div className="d-flex p-4 justify-content-center text-left">
+    <div className="App d-flex p-4 justify-content-center text-left">
 
       {!isRegistered ? 
       (
       <div className="align-self-center p-4">
-        <h3> Register </h3>
+        <h3 className="p-2"> Register </h3>
 
        
-        <label> Username </label>
+        <label className="p-2"> Username </label>
         <input
           value={credentials.username}
           onChange={handleChange}
@@ -92,30 +92,30 @@ function Auth() {
           className="form-control mb-2"
         />
        
-       <label> Email </label>
+       <label className="p-2"> Email </label>
        <input
           value={credentials.email}
           onChange={handleChange}
           name="email"
           type="email"
-          className="form-control mb-2"
+          className="form-control mb-2 p-2"
         />
 
-        <label> Password </label>
+        <label className="p-2"> Password </label>
         <input
           value={credentials.password}
           onChange={handleChange}
           name="password"
           type="password"
-          className="form-control mb-2"
+          className="form-control mb-2 p-2"
         />
-        <button className=" btn btn-primary" onClick={register}>
+        <button className="p-2 btn btn-primary" onClick={register}>
           Register
         </button>
 
-        <p> Already have an account? </p>
+        <p className="p-2"> Already have an account? </p>
         <button 
-        className=" btn btn-primary"
+        className="p-2 btn btn-primary ml-2"
         onClick={changeRegistered} >
         Login
         </button>
@@ -123,31 +123,31 @@ function Auth() {
       </div> ) : 
       (
       <div className="align-self-center p-4">
-      <h3> Sign- in </h3>
+      <h3 className="p-3"> Sign- in </h3>
       <div>
-        <label> Username </label>
+        <label className="p-2"> Username </label>
         <input
           value={credentials.username}
           onChange={handleChange}
           name="username"
           type="text"
-          className="form-control mb-2"
+          className="form-control mb-2 p-2"
         />
-         <label> Password </label>
+         <label className="p-2"> Password </label>
         <input
           value={credentials.password}
           onChange={handleChange}
           name="password"
           type="password"
-          className="form-control mb-2"
+          className="form-control mb-2 p-2"
         />
-         <button className="btn btn-outline-dark ml-2" onClick={login}>
+         <button className="p-2 btn btn-outline-dark ml-2" onClick={login}>
           Log in
         </button>
 
-        <p> Don't have an account? </p>
+        <p className="p-2"> Don't have an account? </p>
         <button 
-        className="btn btn-primary"
+        className="p-2 btn btn-primary ml-2"
         onClick={changeRegistered} >
         Register
         </button>

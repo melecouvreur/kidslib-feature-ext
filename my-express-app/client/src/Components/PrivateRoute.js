@@ -25,6 +25,7 @@ const requestData = async () => {
           if (!result.ok) {
           console.log(data.error);
           setIsLoggedIn(false)
+          setMessage(data.error)
           console.log(isLoggenIn)
         }
 
@@ -40,7 +41,9 @@ const requestData = async () => {
       };
 
 return (
-        <div> {!isLoggenIn ? "" :  <Outlet/> } 
+        <div> {!isLoggenIn ? 
+        ( <h3 className="d-flex p-4 justify-content-center pt-5"> {message} </h3>)
+        :  <Outlet/> } 
         </div>
     )
 }
