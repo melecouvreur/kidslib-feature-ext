@@ -33,7 +33,7 @@ function Auth() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(credentials),
           };
-      const result = await fetch("/users/login", options);
+      const result = await fetch("users/login", options);
       const data  = await result.json();
       if (!result.ok) 
       setError(data.error);
@@ -56,7 +56,7 @@ function Auth() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(credentials),
           };
-      const result = await fetch("/users/register", options);
+      const result = await fetch("users/register", options);
       const data  = await result.json();
       if (!result.ok) 
       setError(data.error);
@@ -70,9 +70,6 @@ function Auth() {
       console.log(err)
     }
   };
-
-
-
 
   return (
     <div className="App d-flex p-4 justify-content-center text-left">

@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 function PrivateRoute() {
 
-const [error, setError] = useState("");
+//const [error, setError] = useState("");
 const [message, setMessage] = useState("");
 const [isLoggenIn, setIsLoggedIn] = useState(true)
 //const navigate = useNavigate();
@@ -19,7 +19,7 @@ const requestData = async () => {
           },
         }; 
         try {
-            // error - had to removed users/privtate and replace with /private but now routes not protected?
+            // error - had to removed users/private and replace with /private but now routes not protected?
           const result = await fetch("/private", options);
           const data = await result.json();
     

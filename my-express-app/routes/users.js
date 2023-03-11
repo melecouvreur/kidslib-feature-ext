@@ -25,14 +25,14 @@ function joinToJson(results) {
   let books = [];
   if (row0.libraryId) {
       books = results.data.map(b => ({
-          userId: b.userId,
-          libraryId: b.libraryId,
-          bookId: b.bookId
+          bId: b.bookId,
+          uId: b.userId,
+          libraryId: b.libraryId
       }));
   }
     // Create user obj
     let user = {
-      id: row0.userId,
+      id: row0.uId,
       books
   };
 
@@ -46,7 +46,7 @@ async function ensureUserExists(req, res, next) {
           // user was found; save it in response obj for the route function to use
           res.locals.user = results.data[0];
           //res.send({message: "User found"})
-          // Let next middleware function run
+          //Let next middleware function run
           next();
       } else {
           res.status(404).send({ error: 'User not found' });
@@ -55,14 +55,24 @@ async function ensureUserExists(req, res, next) {
       res.status(500).send({ error: err.message });
   }
 }
-
+ 
 
 // ROUTES
 
 /* GET all users */
-router.get('/all', function(req, res, next) {
+router.get("/all", function(req, res, next) {
   try {
     sendAllUsers(res)
+  }
+  catch (err) {
+  res.status(500).send({err: err.message})
+  }
+});
+
+router.get("/books",  async (req, res) => {
+  try {
+    const results = await db('SELECT * FROM books_users;')
+    res.status(200).send(results.data)
   }
   catch (err) {
   res.status(500).send({err: err.message})
@@ -82,7 +92,7 @@ router.post("/register", async (req, res) => {
     }
   }); 
 
-/* POST username and password to login user NB - add email */
+/* POST username and password to login user */
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -112,15 +122,17 @@ router.post("/login", async (req, res) => {
     }
   });
 
-// GET user by ID
+// GET user by ID - not working on postman
 router.get('/:id', ensureUserExists, async function(req, res) {
     // check user exists
     let user = res.locals.user;
     try {
-        // Get user; use LEFT JOIN to also return books. bu = books_users
-       let sql = 
+        // Get user; use LEFT JOIN to also return books. 
+        let sql = 
        `UNLOCK TABLES; 
-        SELECT users.id AS userId, mylibrary.id AS libraryId, mylibrary.bookId
+        SELECT users.*, mylibrary.*, 
+        users.id AS userId, 
+        mylibrary.id AS libraryId
         FROM users
         LEFT JOIN books_users
         ON users.id = books_users.uId
@@ -128,12 +140,22 @@ router.get('/:id', ensureUserExists, async function(req, res) {
         ON books_users.bId = mylibrary.id
         WHERE users.id = ${user.id};`
 
+         /*let sql = `UNLOCK TABLES;
+         SELECT users.*, books.*,
+         users.id AS userId,
+         books.id AS primBooksId
+         FROM users
+         LEFT JOIN books_users 
+         ON users.id = books_users.uId
+         LEFT JOIN mylibrary AS books
+         ON books.id = books_users.bId
+         WHERE users.id = ${user.id};`*/
+
         let results = await db(sql);
         //user = joinToJson(results);
-
         //res.send(user);
-        res.status(200).send(results)
-        console.log(results)
+        res.status(200).send(results.data[0])
+        console.log(`results: ${JSON.stringify(results)}`)
     } catch (err) {
         res.status(500).send({ error: err.message });
     }
