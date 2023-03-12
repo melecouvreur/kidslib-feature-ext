@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Auth() {
@@ -9,12 +9,10 @@ function Auth() {
     email: "",
     password: "",
   });
- 
- 
- const [error, setError] = useState("");
+
+ //const [error, setError] = useState("");
  const [message, setMessage] = useState("");
  const navigate = useNavigate();
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +34,7 @@ function Auth() {
       const result = await fetch("users/login", options);
       const data  = await result.json();
       if (!result.ok) 
-      setError(data.error);
+      setMessage(data.error);
       else {
       localStorage.setItem("token", data.token)
       setIsLoggedIn(true);
@@ -59,7 +57,7 @@ function Auth() {
       const result = await fetch("users/register", options);
       const data  = await result.json();
       if (!result.ok) 
-      setError(data.error);
+      setMessage(data.error);
       else {
       console.log(data.message)
       changeRegistered()
@@ -149,12 +147,6 @@ function Auth() {
         Register
         </button>
       </div> 
-
-      {/*<div className="text-center p-4">
-        <button className=" btn btn-outline-primary" onClick={requestData}>
-          Request protected data
-        </button>
-      </div> */}
 
       </div>
       )}

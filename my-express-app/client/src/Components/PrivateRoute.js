@@ -19,8 +19,7 @@ const requestData = async () => {
           },
         }; 
         try {
-            // error - had to removed users/private and replace with /private but now routes not protected?
-          const result = await fetch("/private", options);
+          const result = await fetch("/users/private", options);
           const data = await result.json();
     
           if (!result.ok) {

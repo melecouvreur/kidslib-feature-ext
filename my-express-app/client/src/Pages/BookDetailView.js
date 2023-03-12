@@ -115,8 +115,7 @@ function BookDetailView() {
       <div id="nav" className="col mt-4">
         {/* The styling for the buttons here could be better...kind of weird at different screen sizes */}
         {/* Replace Navbar with different Navlink problems with hierarchy ? */}
-        
-        <Navbar/>
+          {/*<Navbar/>*/}
       </div>
 
     

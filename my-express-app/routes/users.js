@@ -69,6 +69,7 @@ router.get("/all", function(req, res, next) {
   }
 });
 
+
 router.get("/books",  async (req, res) => {
   try {
     const results = await db('SELECT * FROM books_users;')
@@ -102,18 +103,18 @@ router.post("/login", async (req, res) => {
       const user = results.data[0];
       //if user found, compare pw
       if (user) {
-        const user_id = user.id;
-        const correctPassword = await bcrypt.compare(password, user.password); 
+      const user_id = user.id;
+      const correctPassword = await bcrypt.compare(password, user.password); 
         // compare pw req body to db pw. returns boolean. bcrypt method
   
-        if (!correctPassword) throw new Error("Incorrect password");
+      if (!correctPassword) throw new Error("Incorrect password");
         //if pw patches create token
-        const token = jwt.sign({ user_id: user.id }, supersecret); 
+      const token = jwt.sign({ user_id: user.id }, supersecret); 
         //jwt method, takes param user_id as payload and supersecret key .env
         //send token to user
-        console.log(token)
+      console.log(token)
 
-        res.send({ message: "Login successful, here is your token", token });
+      res.send({ message: "Login successful, here is your token", token });
       } else {
         throw new Error("User does not exist");
       }
@@ -122,8 +123,9 @@ router.post("/login", async (req, res) => {
     }
   });
 
+
 // GET user by ID - not working on postman
-router.get('/:id', ensureUserExists, async function(req, res) {
+router.get('/private/:id', ensureUserExists, async function(req, res) {
     // check user exists
     let user = res.locals.user;
     try {
