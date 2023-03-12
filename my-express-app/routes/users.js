@@ -123,7 +123,7 @@ router.post("/login", async (req, res) => {
     }
   });
 
-
+/*
 // GET user by ID - not working on postman
 router.get('/private/:id', ensureUserExists, async function(req, res) {
     // check user exists
@@ -151,7 +151,7 @@ router.get('/private/:id', ensureUserExists, async function(req, res) {
          ON users.id = books_users.uId
          LEFT JOIN mylibrary AS books
          ON books.id = books_users.bId
-         WHERE users.id = ${user.id};`*/
+         WHERE users.id = ${user.id};`
 
         let results = await db(sql);
         //user = joinToJson(results);
@@ -162,11 +162,11 @@ router.get('/private/:id', ensureUserExists, async function(req, res) {
         res.status(500).send({ error: err.message });
     }
 });
-
+*/
 //Private route for logged in users only
 router.get("/private", ensureUserLoggedIn, (req, res) => {
     res.status(200).send({
-      message: "here is your protected data" + req.user_id})
+      message: "here is your protected data " + req.user_id})
 })
 
 module.exports = router;

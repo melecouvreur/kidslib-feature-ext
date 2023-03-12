@@ -31,7 +31,7 @@ function Auth() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(credentials),
           };
-      const result = await fetch("users/login", options);
+      const result = await fetch("/users/login", options);
       const data  = await result.json();
       if (!result.ok) 
       setMessage(data.error);
@@ -40,7 +40,7 @@ function Auth() {
       setIsLoggedIn(true);
       navigate("/private")
       console.log(data.message, data.token)
-      }
+      } 
      }
      catch (err) {
       console.log(err)

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function Navbar() {
 
 const navigate = useNavigate();
-const [isLoggedIn, setIsLoggedIn] = useState(false)
+const [isLoggedIn, setIsLoggedIn] = useState(true)
 
     const logout = () => {
         localStorage.removeItem("token")
@@ -19,9 +19,9 @@ const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     return(
         <div className="flex-row" >
-            <h1 className="text-center">My Library App</h1>
-        <nav className="navbar nav-masthead">
-       
+      
+       <div>
+          <nav className="navbar nav-masthead">
         <div className="px-4"> 
               <button 
               className="btn btn-warning"
@@ -44,7 +44,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(false)
 
         <div className="px-4">
          <NavLink 
-         to="private/myLibrary"
+         to="myLibrary"
          className={({isActive}) => 
          isActive ? activeClassName : undefined }>
           <button className="btn btn-warning">
@@ -52,9 +52,11 @@ const [isLoggedIn, setIsLoggedIn] = useState(false)
           </button>
         </NavLink>
         </div>
+        </nav> 
+        </div>
 
-        
-        </nav>
+
+       
         </div>
     )
 }

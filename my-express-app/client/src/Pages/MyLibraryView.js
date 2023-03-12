@@ -40,7 +40,7 @@ function MyLibraryView() {
   // This function gets books FROM DATABASE and loops through them, using the bookId to search the GOOGLE BOOKS API and return all book data
   const fetchBooks = async () => {
     setLoading(true);
-    try {
+    try { 
       //Get books from database
       let results = await fetch("/mylibrary");
       let data = await results.json();
@@ -90,7 +90,7 @@ function MyLibraryView() {
       method: "DELETE",
     };
     try {
-      let results = await fetch(`/myLibrary/${bookToDelete}`, options);
+      let results = await fetch(`/mylibrary/${bookToDelete}`, options);
       let data = await results.json();
 
       setLoading(false);

@@ -1,5 +1,6 @@
 import {React, useEffect, useState, useNavigate} from "react";
 import { Outlet } from "react-router-dom";
+import Navbar from "./Navbar";
 
 function PrivateRoute() {
 
@@ -44,7 +45,7 @@ const requestData = async () => {
 return (
         <div> {!isLoggenIn ? 
         (<h3 className="d-flex p-4 justify-content-center pt-5"> {message} </h3>)
-        :  <Outlet/> } 
+        :  (<> <Navbar/> <Outlet/>  </>) } 
         </div>
     )
 }
