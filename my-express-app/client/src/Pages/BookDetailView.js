@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import StarRating from "../Components/StarRating";
+import StarRating from "../Layout/StarRating";
 import "./detailView.css";
 
 function BookDetailView() {
@@ -133,28 +133,20 @@ function BookDetailView() {
     setRating(e.target.value)
   };
 
-
   //For review input field
-  const handleReviewSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    updateReview(review);
+
+    if (review !== "") {
+    updateReview(review) }
+    else console.log("review empty")
+
+    if (rating !== 0) {
+    updateRating(rating) }
+    else console.log("rating empty")
     //setReview("");
     console.log(review);
   };
-
-  
-   //For rating input field
-   const handleRatingSubmit = (e) => {
-    e.preventDefault();
-    updateRating(rating)
-    console.log(rating) 
-  };
-
-function log(value) {
-    console.log(value);
-    setRating(value)
-    //updateRating(value)
-  }
 
 
   return (
@@ -187,7 +179,7 @@ function log(value) {
           </div>
 
           {bookData.review ? (
-            <div className="row mt-4">
+            <div className="row mt-4 text-center">
               <div className="col">
                 <h5>{bookData.review}</h5>
               </div>
@@ -195,22 +187,35 @@ function log(value) {
           ) : null}
 
         {bookData.rating ? (
-            <div className="row mt-4">
+            <div className="row mt-4 text-center">
               <div className="col">
-                <h5>{bookData.rating}</h5>
+              <StarRating rating={bookData.rating}/>
               </div>
             </div>
           ) : null}
-
-          <StarRating rating={bookData.rating} />
         </div>
       </div>
 
-      <div id="ratings" className="offset-md-3 col-md-6 mb-3 mt-4">
-        <form onSubmit={handleReviewSubmit}>
-          <label htmlFor="review" className="form-label p-2">
+      <div id="ratings" className="offset-md-3 col-md-6 mb-3 mt-3 text-center">
+
+      <form onSubmit={handleSubmit} className="col">
+         <label htmlFor="review" className="form-label pt-4 p-2">
+            {bookData.rating ? (
+              <h3> Update your rating here.</h3>
+            ) : (
+              <h3> How many stars would you give this book ?</h3>
+            )}
+          </label>
+         <div className="text-center p-2 mb-4"> 
+          <StarRating 
+                rating={rating} 
+                setRating={setRating}/>
+         </div>
+
+       
+          <label htmlFor="review" className="form-label pt-2 p-2">
             {bookData.review ? (
-              <h3>Update your review here.</h3>
+              <h3> Update your review here.</h3>
             ) : (
               <h3>What did you think about this book?</h3>
             )}
@@ -222,26 +227,15 @@ function log(value) {
             value={review}
             onChange={handleReviewChange}
           ></input>
+          <div className="p-2 mt-3 mb-4 text-center">
+            <button 
+            className="btn btn-m btn-warning"> 
+            Update 
+            </button> 
+            </div>
           </form>
 
-           <form onSubmit={handleRatingSubmit}>
-        <label htmlFor="review" className="form-label pt-4 p-2">
-            {bookData.rating ? (
-              <h3>Rate your book here.</h3>
-            ) : (
-              <h3>What did you think about this book?</h3>
-            )}
-          </label>
-          <input
-            type="number"
-            className="form-control p-2"
-            placeholder="Write your review here"
-            value={rating}
-            onChange={handleRatingChange}
-          ></input>
-          
-         </form>
-         <div> <StarRating onChange={log} rating={rating} setRating={setRating}/> </div>
+        
       </div>
 
     </div>

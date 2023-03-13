@@ -1,13 +1,11 @@
-import { React, useState} from "react";
+import { React} from "react";
 import Star from "./Star";
 
-function StarRating({ onChange, rating, setRating }) {
-
-  //const [rating, setRating] = useState(0);
+function StarRating({ rating, setRating }) {
 
   const changeRating = (newRating) => {
     setRating(newRating);
-    onChange?.(newRating);
+    //onChange?.(newRating);
   };
 
   return (

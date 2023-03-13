@@ -1,6 +1,6 @@
 import {React, useEffect, useState, useNavigate} from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "../Layout/Navbar";
 
 function PrivateRoute() {
 

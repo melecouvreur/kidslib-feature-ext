@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../Components/mylibrary.css";
-import Navbar from "../Components/Navbar";
 
 function MyLibraryView() {
   const [books, setBooks] = useState([]); //All books to be rendered
@@ -106,7 +105,7 @@ function MyLibraryView() {
 
   return (
     <div className="App">
-        {/*<Navbar/>*/}
+      
       <div className="container mt-4 mb-4">
         <div className="row">
           <div className="col-md-4">
@@ -139,6 +138,7 @@ function MyLibraryView() {
                   {book.volumeInfo?.authors?.[0]} {book.volumeInfo.authors?.[1]}{" "}
                 </p>
                 <img src={book.volumeInfo.imageLinks?.thumbnail} />
+         
                 <div className="row mt-4">
                   <Link to={`${book.id}`} >
                     <button id="seeMore" className="btn btn-primary col">
