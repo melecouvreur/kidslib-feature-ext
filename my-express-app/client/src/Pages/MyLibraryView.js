@@ -7,7 +7,7 @@ function MyLibraryView() {
   const [books, setBooks] = useState([]); //All books to be rendered
   const [loading, setLoading] = useState(false); //For loading spinner
   const [success, setSuccess] = useState(false); //For success message upon deletion
-
+ 
   useEffect(() => {
     fetchBooks(); //Get all book
     // console.log(books);
@@ -30,12 +30,13 @@ function MyLibraryView() {
 
       setBooks((book) => [...book, data]); // Adding object of data to books array
       //Could add something here to alphabatize the books?
-      // console.log(books);
+      //console.log(books);
       setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
+
   // This function gets books FROM DATABASE and loops through them, using the bookId to search the GOOGLE BOOKS API and return all book data
   const fetchBooks = async () => {
     setLoading(true);
@@ -46,16 +47,17 @@ function MyLibraryView() {
       //Loop through books and search using bookId with the searchMyBooks function
       //Should return full book data from Google & set books as that data
       for (let i = 0; i < data.length; i++) {
-        // console.log(data[i].bookId); //Seems to be accessing the bookId here
-        await searchMyBooksById(data[i].bookId); //Use search function to look up book details using bookId
+        //console.log(data[i].bookId); //Seems to be accessing the bookId here
+        await searchMyBooksById(data[i].bookId) ;//Use search function to look up book details using bookId
       }
-      // console.log(books);
+      //console.log(books);
       setLoading(false);
       return books;
     } catch (err) {
       console.log(err);
     }
   };
+
 
   //FUNCTION TO GET DATABASE BOOKS BASED ON BOOKID FOR DELETE FUNCTION
   const fetchDBBooks = async (bookId) => {
@@ -138,6 +140,7 @@ function MyLibraryView() {
                   {book.volumeInfo?.authors?.[0]} {book.volumeInfo.authors?.[1]}{" "}
                 </p>
                 <img src={book.volumeInfo.imageLinks?.thumbnail} />
+              
          
                 <div className="row mt-4">
                   <Link to={`${book.id}`} >

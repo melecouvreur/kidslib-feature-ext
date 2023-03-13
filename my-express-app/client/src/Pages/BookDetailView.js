@@ -1,7 +1,9 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import StarRating from "../Layout/StarRating";
+import StarRating from "../Layout/StarRating"; 
 import "./detailView.css";
+var striptags = require('striptags'); // imports strigtag module to remove html tags
 
 function BookDetailView() {
   const [book, setBook] = useState([]); //Book info from Google
@@ -128,11 +130,11 @@ function BookDetailView() {
     setReview(e.target.value);
   };
 
-  //For rating input field
+ /* //For rating input field
   const handleRatingChange = (e) => {
     setRating(e.target.value)
   };
-
+*/
   //For review input field
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -175,7 +177,7 @@ function BookDetailView() {
             </h6>
           </div>
           <div className="col-md-8">
-            <p>{book?.volumeInfo?.description}</p>
+            <p>{striptags(book?.volumeInfo?.description)}</p>
           </div>
 
           {bookData.review ? (
@@ -189,7 +191,9 @@ function BookDetailView() {
         {bookData.rating ? (
             <div className="row mt-4 text-center">
               <div className="col">
-              <StarRating rating={bookData.rating}/>
+              <StarRating 
+              rating={bookData.rating}
+              />
               </div>
             </div>
           ) : null}

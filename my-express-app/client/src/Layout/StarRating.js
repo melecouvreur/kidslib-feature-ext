@@ -5,7 +5,6 @@ function StarRating({ rating, setRating }) {
 
   const changeRating = (newRating) => {
     setRating(newRating);
-    //onChange?.(newRating);
   };
 
   return (
