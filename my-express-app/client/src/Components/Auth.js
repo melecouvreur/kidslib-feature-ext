@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Auth() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false) 
+  //const [isLoggedIn, setIsLoggedIn] = useState(false) 
   const [isRegistered, setIsRegistered] = useState(true)
   const [credentials, setCredentials] = useState({
     username: "",
@@ -33,11 +33,13 @@ function Auth() {
           };
       const result = await fetch("/users/login", options);
       const data  = await result.json();
-      if (!result.ok) 
-      setMessage(data.error);
+      if (!result.ok) {
+      setMessage(data.message);
+      console.log(data.message)
+      }
       else {
       localStorage.setItem("token", data.token)
-      setIsLoggedIn(true);
+      //setIsLoggedIn(true);
       navigate("/private")
       console.log(data.message, data.token)
       } 
@@ -56,8 +58,9 @@ function Auth() {
           };
       const result = await fetch("users/register", options);
       const data  = await result.json();
-      if (!result.ok) 
+      if (!result.ok) {
       setMessage(data.error);
+      console.log(data.message) }
       else {
       console.log(data.message)
       changeRegistered()
@@ -118,7 +121,7 @@ function Auth() {
       </div> ) : 
       (
       <div className="align-self-center p-4">
-      <h3 className="p-3"> Sign- in </h3>
+      <h3 className="p-3"> Sign-in </h3>
       <div>
         <label className="p-2"> Username </label>
         <input
@@ -139,8 +142,10 @@ function Auth() {
          <button className="p-2 btn btn-outline-dark ml-2" onClick={login}>
           Log in
         </button>
+     
+        <p className="pt-3"> {message }</p>
 
-        <p className="p-2"> Don't have an account? </p>
+        <p className="p-1"> Don't have an account? </p>
         <button 
         className="p-2 btn btn-primary ml-2"
         onClick={changeRegistered} >

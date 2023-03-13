@@ -23,12 +23,16 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
        <div>
           <nav className="navbar nav-masthead">
         <div className="px-4"> 
+        <NavLink to="/"
+        className={({isActive}) => 
+        isActive ? activeClassName : undefined }>
               <button 
               className="btn btn-warning"
               onClick={logout}
               >
               <h5> Logout </h5>
-              </button>
+              </button> 
+            </NavLink>
         </div>
 
         <div className="px-2">

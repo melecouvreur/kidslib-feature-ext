@@ -6,12 +6,9 @@ import MyLibraryView from "./Pages/MyLibraryView";
 import BookDetailView from "./Pages/BookDetailView";
 import DashBoard from "./Pages/DashBoard";
 import PrivateRoute from "./Components/PrivateRoute";
-import Navbar from "./Components/Navbar";
-import Layout from "./Components/Layout";
+
 
 function App() {
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   
   return (
    <>
