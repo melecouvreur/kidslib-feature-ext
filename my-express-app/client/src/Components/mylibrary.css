@@ -16,3 +16,11 @@ h2 {
 #deleteIcon {
   padding-top: 0.4rem;
 }
+
+#navbar .btn {
+  font-family: "Fredoka One", cursive;
+}
+
+.btn {
+  font-family: "Fredoka One", cursive;
+}

@@ -44,7 +44,7 @@ const requestData = async () => {
 
 return (
         <div> {!isLoggenIn ? 
-        (<h3 className="d-flex p-4 justify-content-center pt-5"> {message} </h3>)
+        (<h2 className="d-flex p-4 justify-content-center align-self-center pt-5"> {message} </h2>)
         :  (<> <Navbar/> <Outlet/>  </>) } 
         </div>
     )

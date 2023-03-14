@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import StarRating from "../Layout/StarRating"; 
@@ -98,7 +97,6 @@ function BookDetailView() {
     }
   };
 
-  
   const updateRating = async () => {
     let bookToUpdate = await fetchDBBooks(book.id);
     // console.log(bookToUpdate);
@@ -125,20 +123,14 @@ function BookDetailView() {
   };
 
   //For review input field
-  //Having trouble rendering review conditionally below because this updates immediately.
   const handleReviewChange = (e) => {
     setReview(e.target.value);
   };
 
- /* //For rating input field
-  const handleRatingChange = (e) => {
-    setRating(e.target.value)
-  };
-*/
-  //For review input field
+  //For review & rating input field
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    //added conditional to avoid updating/resetting with empty values
     if (review !== "") {
     updateReview(review) }
     else console.log("review empty")
@@ -191,7 +183,8 @@ function BookDetailView() {
         {bookData.rating ? (
             <div className="row mt-4 text-center">
               <div className="col">
-              <StarRating 
+              {/*rating here gets value from db via bookData*/}
+              <StarRating
               rating={bookData.rating}
               />
               </div>
@@ -211,6 +204,7 @@ function BookDetailView() {
             )}
           </label>
          <div className="text-center p-2 mb-4"> 
+          {/*rating here gets linked to statevar 'rating' which is pushed back to db as body of updateRating()*/}
           <StarRating 
                 rating={rating} 
                 setRating={setRating}/>

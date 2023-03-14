@@ -1,7 +1,7 @@
 import {React, useState} from "react";
 import { NavLink} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import "../Components/mylibrary.css";
 
 function Navbar() {
 
@@ -15,7 +15,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
         console.log("logged out")
       };
     
-    let activeClassName = "btn btn-sm btn-warning"
+    let activeClassName = "btn btn-warning"
 
     return(
         <div className="flex-row" >
@@ -23,11 +23,12 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
        <div>
           <nav className="navbar nav-masthead">
         <div className="px-4"> 
-        <NavLink to="/"
+        <NavLink to="/" end
+        id="navbar"
         className={({isActive}) => 
         isActive ? activeClassName : undefined }>
               <button 
-              className="btn btn-warning"
+              className="btn"
               onClick={logout}
               >
               <h5> Logout </h5>
@@ -37,10 +38,11 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
 
         <div className="px-2">
         <NavLink 
-        to="/private"
+        to="/private" end
+        id="navbar"
         className={({isActive}) => 
         isActive ? activeClassName : undefined }>
-          <button className="btn btn-warning">
+          <button className="btn">
             <h5>Home</h5>
           </button>
         </NavLink>
@@ -48,10 +50,11 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
 
         <div className="px-4">
          <NavLink 
+         id="navbar"
          to="myLibrary"
          className={({isActive}) => 
          isActive ? activeClassName : undefined }>
-          <button className="btn btn-warning">
+          <button className="btn">
             <h5>My Library</h5>
           </button>
         </NavLink>
