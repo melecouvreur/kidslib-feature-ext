@@ -9,7 +9,9 @@ import PrivateRoute from "./Components/PrivateRoute";
 
 
 function App() {
-  
+
+//NB- paths of Home, MyLibraryView, BookDetail pages are "/private", "/private/myLibrary", "/private/myLibrary/:id"
+//but because nested, you need to remove "/private". Idem for NavLink paths on NavBar component
   return (
    <>
   

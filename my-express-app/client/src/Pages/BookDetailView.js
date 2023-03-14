@@ -72,6 +72,9 @@ function BookDetailView() {
     }
   };
 
+
+ //Seperated updatedReview & updateRating with matching PUT routes to allow for conditional (see handleSubmit())
+ // & avoid empty values being pushed to db
   const updateReview = async () => {
     let bookToUpdate = await fetchDBBooks(book.id);
     // console.log(bookToUpdate);
@@ -127,10 +130,11 @@ function BookDetailView() {
     setReview(e.target.value);
   };
 
-  //For review & rating input field
+  //For review & rating fields
+  //Conditional to avoid updating/resetting with empty values
   const handleSubmit = (e) => {
     e.preventDefault();
-    //added conditional to avoid updating/resetting with empty values
+    
     if (review !== "") {
     updateReview(review) }
     else console.log("review empty")
@@ -204,7 +208,8 @@ function BookDetailView() {
             )}
           </label>
          <div className="text-center p-2 mb-4"> 
-          {/*rating here gets linked to statevar 'rating' which is pushed back to db as body of updateRating()*/}
+          {/*rating here gets linked to StateVar 'rating' 
+          //which is pushed back to db as body of updateRating()*/}
           <StarRating 
                 rating={rating} 
                 setRating={setRating}/>

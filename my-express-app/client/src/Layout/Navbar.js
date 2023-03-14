@@ -3,12 +3,14 @@ import { NavLink} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../Components/mylibrary.css";
 
+//re-usable component replicated across pages nested in PrivateRoute
+
 function Navbar() {
 
 const navigate = useNavigate();
 const [isLoggedIn, setIsLoggedIn] = useState(true)
 
-    const logout = () => {
+const logout = () => {
         localStorage.removeItem("token")
         setIsLoggedIn(false)
         navigate("/")

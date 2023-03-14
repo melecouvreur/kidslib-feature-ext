@@ -4,15 +4,18 @@ import Navbar from "../Layout/Navbar";
 
 function PrivateRoute() {
 
-//const [error, setError] = useState("");
 const [message, setMessage] = useState("");
 const [isLoggenIn, setIsLoggedIn] = useState(true)
-//const navigate = useNavigate();
+
+
 
 useEffect(() => {
     requestData();
       },[]);
-       
+
+//sets isLoggedIn based on whether token is present in header or not aka user is logged in
+//if isLoggedIn = true shows pages nested in PrivateRoute (see App.js)
+//if false, show error (i.e. unauthorized) on screen
 const requestData = async () => {
         let options = {
           headers: {
@@ -27,14 +30,12 @@ const requestData = async () => {
           console.log(data.error);
           setIsLoggedIn(false)
           setMessage(data.error)
-          //navigate("/")
-          console.log(isLoggenIn)
+          //console.log(isLoggenIn)
         }
-
           else {
-          console.log(data.message);
+          //console.log(data.message);
           setIsLoggedIn(true)
-          console.log(isLoggenIn)
+          //console.log(isLoggenIn)
         }
     
         } catch (error) {

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Auth() {
-  //const [isLoggedIn, setIsLoggedIn] = useState(false) 
   const [isRegistered, setIsRegistered] = useState(true)
   const [credentials, setCredentials] = useState({
     username: "",
@@ -10,44 +9,21 @@ function Auth() {
     password: "",
   });
 
- //const [error, setError] = useState("");
  const [message, setMessage] = useState("");
  const navigate = useNavigate();
 
+
+ //Sets credentials for login() and registration() 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
   }; 
 
+  //Toggle between login & registration  view & funct
   const changeRegistered = () => {
     setIsRegistered(isRegistered === true ? false : true)
     console.log(isRegistered)
   }
-
-  const login = async () => {
-    try {
-        let options = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(credentials),
-          };
-      const result = await fetch("/users/login", options);
-      const data  = await result.json();
-      if (!result.ok) {
-      setMessage(data.message);
-      console.log(data.message)
-      }
-      else {
-      localStorage.setItem("token", data.token)
-      //setIsLoggedIn(true);
-      navigate("/private")
-      console.log(data.message, data.token)
-      } 
-     }
-     catch (err) {
-      console.log(err)
-    }
-  };
 
   const register = async () => {
     try {
@@ -60,10 +36,12 @@ function Auth() {
       const data  = await result.json();
       if (!result.ok) {
       setMessage(data.error);
-      console.log(data.message) }
+      //console.log(data.message) 
+     }
       else {
-      console.log(data.message)
+      //console.log(data.message)
       changeRegistered()
+      //once credentials created, directs user to login view
       navigate("/")
       }
      }
@@ -71,6 +49,33 @@ function Auth() {
       console.log(err)
     }
   };
+  
+  const login = async () => {
+    try {
+        let options = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(credentials),
+          };
+      const result = await fetch("/users/login", options);
+      const data  = await result.json();
+      if (!result.ok) {
+      //Shows error message if credentials wrong/unrecognized
+      setMessage(data.message);
+      //console.log(data.message)
+      }
+      else {
+      //if crededentials correct, stores token & directs user to "/private" page (=protected home page)
+      localStorage.setItem("token", data.token)
+      navigate("/private") 
+      //console.log(data.message, data.token)
+      } 
+     }
+     catch (err) {
+      console.log(err)
+    }
+  };
+
 
   return (
     <div className="App d-flex p-4 justify-content-center text-left">
