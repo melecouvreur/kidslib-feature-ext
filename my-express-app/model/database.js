@@ -28,15 +28,16 @@ con.connect(function (err) {
      UNIQUE KEY unique_bookid (bookId)
      );
 
-    DROP TABLE IF EXISTS users; 
-    CREATE TABLE users(
-    id INT NOT NULL AUTO_INCREMENT,
-    email VARCHAR(255) NOT NULL, 
-    username VARCHAR(255) NOT NULL, 
-    password VARCHAR(255) NOT NULL, 
-    PRIMARY KEY (id),
-    UNIQUE KEY unique_username (username)
-    );`;
+     DROP TABLE IF EXISTS users; 
+     CREATE TABLE users(
+     id INT NOT NULL AUTO_INCREMENT,
+     email VARCHAR(255) NOT NULL, 
+     username VARCHAR(255) NOT NULL, 
+     password VARCHAR(255) NOT NULL, 
+     PRIMARY KEY (id),
+     UNIQUE KEY unique_username (username)
+    );`
+
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table creation `MyLibrary` and `users' was successful!");

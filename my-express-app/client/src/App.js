@@ -18,7 +18,6 @@ function App() {
       <Routes>
       <Route path="/" element={<DashBoard/>} />
       <Route path="/private" element={<PrivateRoute/> }>
-       
           <Route path="" element={<Home/>}/>
           <Route path="myLibrary" element={<MyLibraryView />}  />
           <Route path="myLibrary/:id" element={<BookDetailView />}/>
