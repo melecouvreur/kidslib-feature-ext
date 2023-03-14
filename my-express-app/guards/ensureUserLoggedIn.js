@@ -7,7 +7,6 @@ function ensureUserLoggedIn(req, res, next) {
   let authHeader = req.headers["authorization"];
   // Separate 'Bearer' and token to keep only the token
   let [str, token] = authHeader.split(" ");
-
   try {
     // Throws error on invalid/missing token
     // remember, payload includes the user_id we added to it when we created the token

@@ -17,16 +17,29 @@ const con = mysql.createConnection({
 con.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
-  let sql = `DROP TABLE if exists MyLibrary; CREATE TABLE MyLibrary (
+  let sql = 
+    `DROP TABLE if exists mylibrary; 
+     CREATE TABLE mylibrary (
      id int NOT NULL AUTO_INCREMENT,
      bookId varchar(40),
      rating int,
      review varchar(255),
-      PRIMARY KEY (id)
-  );`;
+     PRIMARY KEY (id),
+     UNIQUE KEY unique_bookid (bookId)
+     );
+
+    DROP TABLE IF EXISTS users; 
+    CREATE TABLE users(
+    id INT NOT NULL AUTO_INCREMENT,
+    email VARCHAR(255) NOT NULL, 
+    username VARCHAR(255) NOT NULL, 
+    password VARCHAR(255) NOT NULL, 
+    PRIMARY KEY (id),
+    UNIQUE KEY unique_username (username)
+    );`;
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table creation `MyLibrary` was successful!");
+    console.log("Table creation `MyLibrary` and `users' was successful!");
     console.log("Closing...");
   });
   con.end();

@@ -41,7 +41,6 @@ module.exports = async function db(query) {
             con.end();
             return;
           }
-
           // push the result (which should be an OkPacket) to data
           // germinal - removed next line because it returns an array in an array when empty set
           // results.data.push(result);

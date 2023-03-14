@@ -138,10 +138,24 @@ router.post("/mylibrary", async (req, res) => {
 });
 
 //UPDATE REVIEW -- Used in BookDetailView page
-router.put("/mylibrary/:id", async (req, res) => {
-  const { review } = req.body;
+router.put("/mylibrary/review/:id", async (req, res) => {
+  const { review, rating } = req.body;
   const id = req.params.id;
   const sql = `UPDATE mylibrary SET review = "${review}" WHERE id = ${id}`;
+
+  try {
+    await db(sql);
+    getItems(req, res);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
+//UPDATE RATING -- Used in BookDetailView page
+router.put("/mylibrary/rating/:id", async (req, res) => {
+  const { rating } = req.body;
+  const id = req.params.id;
+  const sql = `UPDATE mylibrary SET rating = ${rating} WHERE id = ${id}`;
 
   try {
     await db(sql);

@@ -4,23 +4,26 @@ const db = require("../model/helper");
 require("dotenv").config();
 const jwt = require("jsonwebtoken")
 const ensureUserLoggedIn = require("../guards/ensureUserLoggedIn")
+const ensureUserExists = require("../guards/ensureUserExists")
 
 const bcrypt = require("bcrypt");
 const saltRounds = 7;
 const supersecret = process.env.SUPER_SECRET;
 
-//GUARDS - NB - move to seperate js file
+/**
+ * Helpers
+ **/
 
 async function sendAllUsers(res) {
   let results = await db('SELECT * FROM users ORDER BY id');
   res.send(results.data);
 }
 
-// Convert DB results into a useful JSON format: user obj with nested array of book objs
+//Convert DB results into a useful JSON format: user obj with nested array of book objs. 
+//Didn't manage to test this out
 function joinToJson(results) {
   // Get first row
   let row0 = results.data[0];
-
   // Create array of book objs
   let books = [];
   if (row0.libraryId) {
@@ -35,29 +38,11 @@ function joinToJson(results) {
       id: row0.uId,
       books
   };
-
   return user;
 }
-
-async function ensureUserExists(req, res, next) {
-  try {
-      let results = await db(`SELECT * FROM users WHERE id = ${req.params.id}`);
-      if (results.data.length === 1) {
-          // user was found; save it in response obj for the route function to use
-          res.locals.user = results.data[0];
-          //res.send({message: "User found"})
-          //Let next middleware function run
-          next();
-      } else {
-          res.status(404).send({ error: 'User not found' });
-      }
-    } catch (err) {
-      res.status(500).send({ error: err.message });
-  }
-}
- 
-
-// ROUTES
+/**
+ * Routes
+ **/
 
 /* GET all users */
 router.get("/all", function(req, res, next) {
@@ -69,7 +54,7 @@ router.get("/all", function(req, res, next) {
   }
 });
 
-
+/*GET all info from junction table books_users. For testing*/
 router.get("/books",  async (req, res) => {
   try {
     const results = await db('SELECT * FROM books_users;')
@@ -123,12 +108,11 @@ router.post("/login", async (req, res) => {
     }
   });
 
-/*
 // GET user by ID - not working on postman
 router.get('/private/:id', ensureUserExists, async function(req, res) {
     // check user exists
-    let user = res.locals.user;
     try {
+       let user = res.locals.user;
         // Get user; use LEFT JOIN to also return books. 
         let sql = 
        `UNLOCK TABLES; 
@@ -140,29 +124,18 @@ router.get('/private/:id', ensureUserExists, async function(req, res) {
         ON users.id = books_users.uId
         LEFT JOIN mylibrary
         ON books_users.bId = mylibrary.id
-        WHERE users.id = ${user.id};`
-
-         /*let sql = `UNLOCK TABLES;
-         SELECT users.*, books.*,
-         users.id AS userId,
-         books.id AS primBooksId
-         FROM users
-         LEFT JOIN books_users 
-         ON users.id = books_users.uId
-         LEFT JOIN mylibrary AS books
-         ON books.id = books_users.bId
-         WHERE users.id = ${user.id};`
+        WHERE users.id = ${user};`
 
         let results = await db(sql);
         //user = joinToJson(results);
         //res.send(user);
-        res.status(200).send(results.data[0])
+        res.status(200).send(results.data)
         console.log(`results: ${JSON.stringify(results)}`)
     } catch (err) {
         res.status(500).send({ error: err.message });
     }
 });
-*/
+
 //Private route for logged in users only
 router.get("/private", ensureUserLoggedIn, (req, res) => {
     res.status(200).send({
