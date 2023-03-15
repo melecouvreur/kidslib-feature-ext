@@ -4,9 +4,9 @@
 
 The Kid Library app is an application built with React, Express, Node, and MySQL and styled with Bootstrap. It uses React-Router to enable multiple page navigation and the Google Books API to access book details and information.
 
-This document covers the original build + the feature extension. [Here](https://github.com/crwainstock/mvp) you can find the original project documentation!
+This document covers the original build  and the feature extension. [Here](https://github.com/crwainstock/mvp) you can find the original project documentation!
 
-Feature extensions this repo covers:
+Feature extensions:
 
 - User authentication & verification
   - User can create account and login
@@ -31,6 +31,7 @@ Feature extensions this repo covers:
   DB_USER=root
   DB_NAME=mybooks
   DB_PASS=YOURPASSWORD
+  SUPER_SECRET=shhhhhhhhh
 ```
 
 - Run `npm run migrate` in the my-express-app folder of this repository, in a new terminal window. This will create a table called 'mylibrary' and 'users' in your database.
@@ -100,7 +101,7 @@ ADD CONSTRAINT unique_username UNIQUE KEY(username);
 
 - _Note_: The client folder holds everything to do with the front end of the app. The my-express-app encapsulates the whole app, including all back end files and the client files.
 
-- _Note for Crystal_: If you are not cloning the full repo, you will need to run `npm install striptags` and `npm install react-icons --save` to use these components. `striptags` removes the html tags and `react-icons` imports the star icon component in BookDetailView page.
+- _Note for Crystal_: If you are not cloning the full repo, you will need to run `npm install jsonwebtoken bcrypt` ,  `npm install striptags` and `npm install react-icons --save` to use these components. `striptags` removes the html tags and `react-icons` imports the star icon component in BookDetailView page. `jsonwebtoken bcrypt` will encrypt user passwords.
 
 ## Code & Functionality Overview
 
