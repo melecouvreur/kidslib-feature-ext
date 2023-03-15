@@ -128,17 +128,12 @@ ADD CONSTRAINT unique_username UNIQUE KEY(username);
 - You can see more about front end functions and how they're organized in each page/component in [this document](https://docs.google.com/document/d/16H9LM7R9L0kpnlxoho1FrG1MixFCQ_XpMKUT5S937Tk/edit?usp=sharing).
 
 - **Back End**
-  - Project uses one MySQL table to store user-generated data (reviews). It is linked to the external API through use of the bookId values.
+  - The project uses `mylibrary` MySQL table to store user-generated data (reviews) and `users` table to store user info. `mylibrary` is linked to the external API through use of the bookId values.
   - `index.js` includes all of the router functions.
     - The project uses **node-fetch** to allow for the use of fetch in the back end. You can read more about node-fetch [here](https://www.npmjs.com/package/node-fetch) if you're interested.
       - Because the external API is accessed on the back end, fetches made from the front end include the URLs built for the project (rather than the Google API URLs).
   - You can see more about router functions and how they're organized in [this document](https://docs.google.com/document/d/15Zsi57j_uF6vQbdLi3YIE2zm1OKTCM4QIMPd1E8kLK0/edit?usp=sharing).
   - `users.js` includes all of the routes functions for user registration, login and verification (i.e. protecting pages from being viewed by users who are not logged in).
-
-## App Demo
-
-You can watch [an app demo here](https://www.loom.com/share/32b795f8cc7649c2886781d2e89ea99c).
-You can see [demo presentation slides here](https://docs.google.com/presentation/d/1uuLLg3MbislgIm2dCRH5q6cGXP1T3_vkfbn1UX9gVQU/edit?usp=sharing).
 
 ## Contributing to the Project
 
