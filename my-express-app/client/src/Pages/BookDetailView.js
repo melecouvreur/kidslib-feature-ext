@@ -73,8 +73,9 @@ function BookDetailView() {
   };
 
 
- //Seperated updatedReview & updateRating with matching PUT routes to allow for conditional (see handleSubmit())
- // & avoid empty values being pushed to db
+
+ //Seperated updatedReview & updateRating with matching PUT routes
+ //to allow for conditional (see handleSubmit()) & avoid empty values being pushed to db
   const updateReview = async () => {
     let bookToUpdate = await fetchDBBooks(book.id);
     // console.log(bookToUpdate);
@@ -83,7 +84,7 @@ function BookDetailView() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ review: review, rating: rating }),
+      body: JSON.stringify({ review: review }),
     };
     try {
       let results = await fetch(`/myLibrary/review/${bookToUpdate}`, options);

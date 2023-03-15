@@ -1,4 +1,4 @@
-import {React, useEffect, useState, useNavigate} from "react";
+import {React, useEffect, useState} from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../Layout/Navbar";
 
@@ -7,14 +7,12 @@ function PrivateRoute() {
 const [message, setMessage] = useState("");
 const [isLoggenIn, setIsLoggedIn] = useState(true)
 
-
-
 useEffect(() => {
     requestData();
       },[]);
 
 //sets isLoggedIn based on whether token is present in header or not aka user is logged in
-//if isLoggedIn = true shows pages nested in PrivateRoute (see App.js)
+//if isLoggedIn = true shows pages nested in PrivateRoute (see App.js) via <Outlet/> + <NavBar/> comp
 //if false, show error (i.e. unauthorized) on screen
 const requestData = async () => {
         let options = {

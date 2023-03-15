@@ -9,7 +9,6 @@ async function ensureUserExists(req, res, next) {
           res.locals.user = results.data[0].id;
           //let user = JSON.stringify(res.locals.user)
           //res.send({message: `${user}`})
-          //res.send({message})
           //Let next middleware function run
           next();
       } else {

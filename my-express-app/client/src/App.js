@@ -1,7 +1,7 @@
-import {React, useState} from "react";
-import Home from "./Pages/Home";
+import {React} from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./Pages/Home";
 import MyLibraryView from "./Pages/MyLibraryView";
 import BookDetailView from "./Pages/BookDetailView";
 import DashBoard from "./Pages/DashBoard";
@@ -10,8 +10,9 @@ import PrivateRoute from "./Components/PrivateRoute";
 
 function App() {
 
-//NB- paths of Home, MyLibraryView, BookDetail pages are "/private", "/private/myLibrary", "/private/myLibrary/:id"
-//but because nested, you need to remove "/private". Idem for NavLink paths on NavBar component
+//NB - Paths of Home, MyLibraryView, BookDetail pages are "/private", "/private/myLibrary", "/private/myLibrary/:id" respc
+//but because nested, remove "/private". 
+//Idem for NavLink paths on NavBar component
   return (
    <>
   

@@ -20,7 +20,6 @@ async function sendAllUsers(res) {
 }
 
 //Convert DB results into a useful JSON format: user obj with nested array of book objs. 
-//Didn't manage to test this out
 function joinToJson(results) {
   // Get first row
   let row0 = results.data[0];
@@ -28,14 +27,15 @@ function joinToJson(results) {
   let books = [];
   if (row0.libraryId) {
       books = results.data.map(b => ({
-          bId: b.bookId,
-          uId: b.userId,
-          libraryId: b.libraryId
+          bId: b.bookId, //googleBookId
+          libraryId: b.libraryId, //mylibrary table id
+          rating: b.rating,
+          review: b.review
       }));
   }
     // Create user obj
     let user = {
-      id: row0.uId,
+      uId: row0.userId, //users table id
       books
   };
   return user;
@@ -108,15 +108,15 @@ router.post("/login", async (req, res) => {
     }
   });
 
-// GET user by ID - not working on postman
+// GET user by ID 
 router.get('/private/:id', ensureUserExists, async function(req, res) {
-    // check user exists
+    // check user exists via ensureUserExists guard
+    // & store user id in res.locals.user
+    // get book data via LEFT JOIN to junction books_users and mylibrary table
     try {
        let user = res.locals.user;
-        // Get user; use LEFT JOIN to also return books. 
-        let sql = 
-       `UNLOCK TABLES; 
-        SELECT users.*, mylibrary.*, 
+       let sql = 
+       `SELECT users.*, mylibrary.*, 
         users.id AS userId, 
         mylibrary.id AS libraryId
         FROM users
@@ -127,10 +127,9 @@ router.get('/private/:id', ensureUserExists, async function(req, res) {
         WHERE users.id = ${user};`
 
         let results = await db(sql);
-        //user = joinToJson(results);
-        //res.send(user);
-        res.status(200).send(results.data)
-        console.log(`results: ${JSON.stringify(results)}`)
+        user = joinToJson(results);
+        res.status(200).send(user)
+        //console.log(`results: ${JSON.stringify(results)}`)
     } catch (err) {
         res.status(500).send({ error: err.message });
     }

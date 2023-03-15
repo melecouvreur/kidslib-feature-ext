@@ -13,18 +13,19 @@ function Auth() {
  const navigate = useNavigate();
 
 
- //Sets credentials for login() and registration() 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCredentials({ ...credentials, [name]: value });
-  }; 
-
-  //Toggle between login & registration  view & funct
+  //Toggles between login / register view & funct
   const changeRegistered = () => {
     setIsRegistered(isRegistered === true ? false : true)
     console.log(isRegistered)
   }
 
+  //Sets credentials for login() and register() 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials({ ...credentials, [name]: value });
+  }; 
+
+  //if isRegistered = false register view & func will appear
   const register = async () => {
     try {
         let options = {
@@ -40,8 +41,8 @@ function Auth() {
      }
       else {
       //console.log(data.message)
+      //Sets registered status to true once successful & directs user to login
       changeRegistered()
-      //once credentials created, directs user to login view
       navigate("/")
       }
      }
@@ -49,7 +50,8 @@ function Auth() {
       console.log(err)
     }
   };
-  
+
+  //if isRegistered = true, login view and func will appear
   const login = async () => {
     try {
         let options = {
@@ -79,7 +81,6 @@ function Auth() {
 
   return (
     <div className="App d-flex p-4 justify-content-center text-left">
-
       {!isRegistered ? 
       (
       <div className="align-self-center">
