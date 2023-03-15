@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import StarRating from "../Layout/StarRating"; 
 import "./detailView.css";
-var striptags = require('striptags'); // imports strigtag module to remove html tags
+var striptags = require('striptags'); // imports strigtag module to remove html tags when rendering reviews from GoogleBooksAPI
 
 function BookDetailView() {
   const [book, setBook] = useState([]); //Book info from Google

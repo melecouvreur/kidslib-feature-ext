@@ -4,7 +4,7 @@
 
 The Kid Library app is an application built with React, Express, Node, and MySQL and styled with Bootstrap. It uses React-Router to enable multiple page navigation and the Google Books API to access book details and information.
 
-This document covers the original build + the feature extension. [Here](https://github.com/melecouvreur/kidslib-feature-ext/blob/main/README.md) you can find the original project documentation!
+This document covers the original build + the feature extension. [Here](https://github.com/crwainstock/mvp) you can find the original project documentation!
 
 Feature extensions this repo covers:
 
@@ -97,7 +97,10 @@ ADD CONSTRAINT unique_username UNIQUE KEY(username);
 
 - Open a terminal, and do `cd my-express-app`. Run `npm start` to start the Express server on port 5000.
 - In another terminal, do `cd my-express-app` and then `cd client` and run `npm start` to start the client in development mode with hot reloading in port 3000.
+
 - _Note_: The client folder holds everything to do with the front end of the app. The my-express-app encapsulates the whole app, including all back end files and the client files.
+
+- _Note for Crystal_: If you are not cloning the full repo, you will need to run `npm install striptags` and `npm install react-icons --save` to use these components. `striptags` removes the html tags and `react-icons` imports the star icon component in BookDetailView page.
 
 ## Code & Functionality Overview
 
@@ -113,7 +116,7 @@ ADD CONSTRAINT unique_username UNIQUE KEY(username);
     - `DashBoard` page "/". This page renders the `Auth` component.
 
   - **Private**
-    - `PrivateRoute` component "/private". This protects the below/nested pages. Users can only only access these pages when logged in. Once logged in, this component also renders the `navbar` component across below/nested pages.
+    - `PrivateRoute` component "/private". This protects the below/nested pages. Users can only only access these pages when logged in. Once logged in, this component also renders the `NavBar` component across below/nested pages.
       - `Home` page "/private". This page renders the `MyLibraryWidget` and `Search` components.
       - `MyLibraryView` page "private/mylibrary"
       - `BookDetailView` page "private/mylibrary/${bookId}". This page renders the `StarRating` component.
