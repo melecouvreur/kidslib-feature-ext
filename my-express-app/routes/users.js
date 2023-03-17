@@ -5,14 +5,13 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken")
 const ensureUserLoggedIn = require("../guards/ensureUserLoggedIn")
 const ensureUserExists = require("../guards/ensureUserExists")
-
 const bcrypt = require("bcrypt");
-const ensureLibraryBelongToUser = require('../guards/ensureLibraryBelongToUser');
+const ensureLibraryBelongToUser = require('../guards/ensureLibraryBelongToUser'); // testing for multi-user func. Not used atm!
 const saltRounds = 7;
 const supersecret = process.env.SUPER_SECRET;
 
 /**
- * Helpers
+ * Helpers for multi-user func
  **/
 
 async function sendAllUsers(res) {
@@ -20,7 +19,7 @@ async function sendAllUsers(res) {
   res.send(results.data);
 }
 
-//Convert DB results into a useful JSON format: user obj with nested array of book objs. 
+//Convert "/library/:id" DB results into a useful JSON format: user obj with nested array of book objs. 
 function joinToJson(results) {
   // Get first row
   let row0 = results.data[0];
@@ -28,10 +27,10 @@ function joinToJson(results) {
   let books = [];
   if (row0.libraryId) {
       books = results.data.map(b => ({
-          bookId: b.bookId, //googleBookId
-          libraryId: b.libraryId, //mylibrary table id
-          rating: b.rating,
-          review: b.review
+          bookId: b.bookId, //mylibrary table GoogleBookId
+          libraryId: b.libraryId, //mylibrary table book id
+          rating: b.rating, //mylibrary rating 
+          review: b.review //mylibrary review
       }));
   }
     // Create user obj
@@ -41,31 +40,12 @@ function joinToJson(results) {
   };
   return user;
 }
+
+
 /**
  * Routes
  **/
 
-/* GET all users */
-router.get("/all", function(req, res, next) {
-  try {
-    sendAllUsers(res)
-  }
-  catch (err) {
-  res.status(500).send({err: err.message})
-  }
-});
-
-/*GET all info from junction table books_users. For testing*/
-router.get("/books",  async (req, res) => {
-  try {
-    const results = await db('SELECT * FROM books_users;')
-    res.status(200).send(results.data)
-  }
-  catch (err) {
-  res.status(500).send({err: err.message})
-  }
-});
- 
 /* POST username, password, email to register new user */
 router.post("/register", async (req, res) => {
     const { username, email, password } = req.body;
@@ -109,6 +89,37 @@ router.post("/login", async (req, res) => {
     }
   });
 
+//Private route for logged in users only
+router.get("/private", ensureUserLoggedIn, (req, res) => {
+  res.status(200).send({
+    message: "here is your protected data " + req.user_id})
+})
+
+//
+//Multi-user func related routes
+//
+
+/* GET all users. For testing */
+  router.get("/all", function(req, res, next) {
+    try {
+      sendAllUsers(res)
+    }
+    catch (err) {
+    res.status(500).send({err: err.message})
+    }
+  });
+  
+  /*GET all info from junction table books_users. For testing*/
+  router.get("/books",  async (req, res) => {
+    try {
+      const results = await db('SELECT * FROM books_users;')
+      res.status(200).send(results.data)
+    }
+    catch (err) {
+    res.status(500).send({err: err.message})
+    }
+  });
+
 // GET user-specific library info. Used in UserLibraryView Page.
 router.get('/library/:id', ensureUserExists, async function(req, res) {
     // check user exists via ensureUserExists guard
@@ -135,13 +146,6 @@ router.get('/library/:id', ensureUserExists, async function(req, res) {
         res.status(500).send({ error: err.message });
     }
 });
-
-//Private route for logged in users only
-router.get("/private", ensureUserLoggedIn, (req, res) => {
-    res.status(200).send({
-      message: "here is your protected data " + req.user_id})
-})
-
 
 //Route to check if library belongs to user. Not sure this is needed. Probably too complex. 
 //Didn't do much work on this.
