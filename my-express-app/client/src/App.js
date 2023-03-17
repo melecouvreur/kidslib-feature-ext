@@ -18,7 +18,7 @@ function App() {
 //For multi-user functionality. Not fully working yet! 
 //userId gets Updated in DashBoard/Auth comp via login().
 //Updated userId is currently being passed up i.e. from Dash/Auth to App, but not back to UserLibraryView comp :(
-const [userId, setUserId] = useState(1)
+const [userId, setUserId] = useState(2)
 const changeId = (newId) => setUserId(newId)
 
 let userObj = {userId, setUserId, changeIdCB: changeId};
@@ -31,7 +31,7 @@ let userObj = {userId, setUserId, changeIdCB: changeId};
    
     <BrowserRouter>
      <UserContext.Provider value={userObj}>
-      {userId}
+     
       <Routes>
       <Route path="/"element={<DashBoard/>} />
       {/*UserLibraryComp is only to test multi-user funct. To check if different libraries are being shown for different users*/}
