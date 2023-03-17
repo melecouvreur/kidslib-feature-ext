@@ -7,6 +7,7 @@ const ensureUserLoggedIn = require("../guards/ensureUserLoggedIn")
 const ensureUserExists = require("../guards/ensureUserExists")
 
 const bcrypt = require("bcrypt");
+const ensureLibraryBelongToUser = require('../guards/ensureLibraryBelongToUser');
 const saltRounds = 7;
 const supersecret = process.env.SUPER_SECRET;
 
@@ -27,7 +28,7 @@ function joinToJson(results) {
   let books = [];
   if (row0.libraryId) {
       books = results.data.map(b => ({
-          bId: b.bookId, //googleBookId
+          bookId: b.bookId, //googleBookId
           libraryId: b.libraryId, //mylibrary table id
           rating: b.rating,
           review: b.review
@@ -96,10 +97,10 @@ router.post("/login", async (req, res) => {
         //if pw patches create token
       const token = jwt.sign({ user_id: user.id }, supersecret); 
         //jwt method, takes param user_id as payload and supersecret key .env
-        //send token to user
+        //send token and user id to user
       console.log(token)
 
-      res.send({ message: "Login successful, here is your token", token });
+      res.send({ message: "Login successful, here is your token and id", token, user_id });
       } else {
         throw new Error("User does not exist");
       }
@@ -108,8 +109,8 @@ router.post("/login", async (req, res) => {
     }
   });
 
-// GET user by ID 
-router.get('/private/:id', ensureUserExists, async function(req, res) {
+// GET user-specific library info. Used in UserLibraryView Page.
+router.get('/library/:id', ensureUserExists, async function(req, res) {
     // check user exists via ensureUserExists guard
     // & store user id in res.locals.user
     // get book data via LEFT JOIN to junction books_users and mylibrary table
@@ -127,8 +128,8 @@ router.get('/private/:id', ensureUserExists, async function(req, res) {
         WHERE users.id = ${user};`
 
         let results = await db(sql);
-        user = joinToJson(results);
-        res.status(200).send(user)
+        userlib = joinToJson(results);
+        res.status(200).send(userlib)
         //console.log(`results: ${JSON.stringify(results)}`)
     } catch (err) {
         res.status(500).send({ error: err.message });
@@ -140,6 +141,16 @@ router.get("/private", ensureUserLoggedIn, (req, res) => {
     res.status(200).send({
       message: "here is your protected data " + req.user_id})
 })
+
+
+//Route to check if library belongs to user. Not sure this is needed. Probably too complex. 
+//Didn't do much work on this.
+/*
+router.get("/library", ensureLibraryBelongToUser, (req, res) => {
+  res.status(200).send({
+    message: "This library belongs to user" + req.user_id})
+})
+*/
 
 module.exports = router;
 

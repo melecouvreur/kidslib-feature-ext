@@ -139,7 +139,7 @@ router.post("/mylibrary", async (req, res) => {
 
 //UPDATE REVIEW -- Used in BookDetailView page
 router.put("/mylibrary/review/:id", async (req, res) => {
-  const { review, rating } = req.body;
+  const { review } = req.body;
   const id = req.params.id;
   const sql = `UPDATE mylibrary SET review = "${review}" WHERE id = ${id}`;
 

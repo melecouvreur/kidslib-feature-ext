@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from 'react'; 
+import {UserContext}  from './UserContext'
 
 function Auth() {
   const [isRegistered, setIsRegistered] = useState(true)
@@ -12,6 +14,7 @@ function Auth() {
  const [message, setMessage] = useState("");
  const navigate = useNavigate();
 
+ let {userId, changeIdCB} = useContext(UserContext);// for multi-user func (WIP!)
 
   //Toggles between login / register view & funct
   const changeRegistered = () => {
@@ -38,7 +41,7 @@ function Auth() {
       if (!result.ok) {
       setMessage(data.error);
       //console.log(data.message) 
-     }
+     } 
       else {
       //console.log(data.message)
       //Sets registered status to true once successful & directs user to login
@@ -68,9 +71,14 @@ function Auth() {
       }
       else {
       //if crededentials correct, stores token & directs user to "/private" page (=protected home page)
-      localStorage.setItem("token", data.token)
+      localStorage.setItem("token", data.token, "id", data.user_id)
+      changeIdCB(data.user_id) //for multi-user login. WIP!
+      //Attempt to update userId from <UserContext.Provider>
+      //Seems to be updating id on Auth (with delay) but not in UserLibraryView comp.
+      console.log(userId)
       navigate("/private") 
-      //console.log(data.message, data.token)
+      console.log(data.message, data.token, data.user_id)
+      console.log(userId)
       } 
      }
      catch (err) {
