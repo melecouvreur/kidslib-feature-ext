@@ -23,6 +23,7 @@ const logout = () => {
         <div className="flex-row" >
       
        <div>
+       <NavLink to="/userlibrary"> User Library</NavLink>
           <nav className="navbar nav-masthead">
         <div className="px-4"> 
         <NavLink to="/" end

@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DashBoard from "./Pages/DashBoard";
@@ -18,10 +18,9 @@ function App() {
 //For multi-user functionality. Not fully working yet! 
 //userId gets Updated in DashBoard/Auth comp via login().
 //Updated userId is currently being passed up i.e. from Dash/Auth to App, but not back to UserLibraryView comp :(
-const [userId, setUserId] = useState(2)
-const changeId = (newId) => setUserId(newId)
 
-let userObj = {userId, setUserId, changeIdCB: changeId};
+const [userId, setUserId] = useState(2)
+let userObj = {userId, setUserId};
 
 //NB - Paths of Home, MyLibraryView, BookDetail pages are "/private", "/private/myLibrary", "/private/myLibrary/:id" respc
 //but because nested, remove "/private". 
@@ -37,6 +36,7 @@ let userObj = {userId, setUserId, changeIdCB: changeId};
       {/*UserLibraryComp is only to test multi-user funct. To check if different libraries are being shown for different users*/}
       <Route path="/userlibrary" element={<UserLibraryView/>}/>
       <Route path="/private" element={<PrivateRoute/> }>
+      
           <Route path="" element={<Home/>}/>
           <Route path="myLibrary" element={<MyLibraryView />}  />
           <Route path="myLibrary/:id" element={<BookDetailView />}/>

@@ -1,12 +1,20 @@
 import {React, useEffect, useState} from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../Layout/Navbar";
+//import { useContext } from 'react'; 
+//import {UserContext}  from './UserContext'
 
 function PrivateRoute() {
+
 
 const [message, setMessage] = useState("");
 const [isLoggenIn, setIsLoggedIn] = useState(true)
 
+//let {userId, setUserId} = useContext(UserContext);// for multi-user func (WIP!)
+
+const changeId = (newId) => {
+ //setUserId(newId)
+}
 
 useEffect(() => {
     requestData();
@@ -32,9 +40,12 @@ const requestData = async () => {
           //console.log(isLoggenIn)
         }
           else {
-          //console.log(data.message);
+          console.log(data.message);
           setIsLoggedIn(true)
           //console.log(isLoggenIn)
+          //changeId(data.id)
+          //console.log(userId)
+          console.log("user_id" + data.id)
         }
     
         } catch (error) {

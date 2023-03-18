@@ -91,8 +91,9 @@ router.post("/login", async (req, res) => {
 
 //Private route for logged in users only
 router.get("/private", ensureUserLoggedIn, (req, res) => {
+  let id = req.user_id
   res.status(200).send({
-    message: "here is your protected data " + req.user_id})
+    message: "here is your protected data " + id })
 })
 
 //
