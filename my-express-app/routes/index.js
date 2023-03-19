@@ -4,6 +4,7 @@ var express = require("express");
 var router = express.Router();
 const db = require("../model/helper"); //So this file can access the helper functions.
 const fetch = require("node-fetch");
+const ensureUserExists = require("../guards/ensureUserExists")
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -75,6 +76,17 @@ const getItems = async (req, res) => {
   }
 };
 
+ /*GET all info from junction table books_users. For testing*/
+const getUserItems =  async (req, res) => {
+  try {
+    const results = await db('SELECT * FROM books_users;')
+    res.status(200).send(results.data)
+  }
+  catch (err) {
+  res.status(500).send({err: err.message})
+  }
+};
+
 // GET ALL LIBRARY ITEMS -- FROM DATABASE
 router.get("/mylibrary", async (req, res) => {
   try {
@@ -137,6 +149,17 @@ router.post("/mylibrary", async (req, res) => {
   }
 });
 
+// DELETE ITEM BY ID -- Used in MyLibrary page
+router.delete("/mylibrary/:id", async (req, res) => {
+  let id = Number(req.params.id);
+  try {
+    await db(`DELETE FROM mylibrary WHERE id = ${id}`);
+    await getItems(req, res);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 //UPDATE REVIEW -- Used in BookDetailView page
 router.put("/mylibrary/review/:id", async (req, res) => {
   const { review } = req.body;
@@ -165,15 +188,34 @@ router.put("/mylibrary/rating/:id", async (req, res) => {
   }
 });
 
-// DELETE ITEM BY ID -- Used in MyLibrary page
-router.delete("/mylibrary/:id", async (req, res) => {
-  let id = Number(req.params.id);
+//
+//multi-user routes
+//
+
+// ADD ITEMS TO LIBRARY PER USER. Move to Users.js?
+// Used in Search component. 
+// Seems to be working. Need to pass userId when calling function.
+router.post("/userlibrary/:id", ensureUserExists, async (req, res) => {
+  const { bookId } = req.body;
+  let uId = res.locals.user
+  const sql = `INSERT INTO mylibrary (bookId) VALUES ("${bookId}");
+  SELECT LAST_INSERT_ID();`;
   try {
-    await db(`DELETE FROM mylibrary WHERE id = ${id}`);
-    await getItems(req, res);
+    let results = await db(sql);
+    let newBookId = results.data[0].insertId;
+    if (uId) {
+      let vals = []; 
+      vals.push(`(${newBookId}, ${uId})`)
+      let sql = `INSERT INTO books_users (bId, uId)
+      VALUES ${vals.join(",")}`
+      await db(sql)
+    }
+    await getUserItems(req, res);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({ error: err.message });
   }
 });
+
+
 
 module.exports = router;

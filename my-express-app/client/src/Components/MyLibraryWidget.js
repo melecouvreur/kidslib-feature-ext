@@ -47,7 +47,7 @@ function MyLibraryWidget() {
         console.log(data[i].bookId); //Seems to be accessing the bookId here
         await searchMyBooksById(data[i].bookId); //Use search function to look up book details using bookId
       }
-      // console.log(books);
+      console.log(books);
       setLoading(false);
       return books;
     } catch (err) {

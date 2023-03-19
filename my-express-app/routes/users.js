@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken")
 const ensureUserLoggedIn = require("../guards/ensureUserLoggedIn")
 const ensureUserExists = require("../guards/ensureUserExists")
 const bcrypt = require("bcrypt");
-const ensureLibraryBelongToUser = require('../guards/ensureLibraryBelongToUser'); // testing for multi-user func. Not used atm!
 const saltRounds = 7;
 const supersecret = process.env.SUPER_SECRET;
 
@@ -93,7 +92,7 @@ router.post("/login", async (req, res) => {
 router.get("/private", ensureUserLoggedIn, (req, res) => {
   let id = req.user_id
   res.status(200).send({
-    message: "here is your protected data " + id })
+    message: "here is your protected data " , id })
 })
 
 //
@@ -121,8 +120,20 @@ router.get("/private", ensureUserLoggedIn, (req, res) => {
     }
   });
 
+ /*GET all info from junction table books_users. For testing*/
+ const getUserItems =  async (req, res) => {
+  try {
+    const results = await db('SELECT * FROM books_users;')
+    res.status(200).send(results.data)
+  }
+  catch (err) {
+  res.status(500).send({err: err.message})
+  }
+};
+
+
 // GET user-specific library info. Used in UserLibraryView Page.
-router.get('/library/:id', ensureUserExists, async function(req, res) {
+router.get('/userlibrary/:id', ensureUserExists, async function(req, res) {
     // check user exists via ensureUserExists guard
     // & store user id in res.locals.user
     // get book data via LEFT JOIN to junction books_users and mylibrary table
@@ -148,14 +159,46 @@ router.get('/library/:id', ensureUserExists, async function(req, res) {
     }
 });
 
-//Route to check if library belongs to user. Not sure this is needed. Probably too complex. 
-//Didn't do much work on this.
-/*
-router.get("/library", ensureLibraryBelongToUser, (req, res) => {
-  res.status(200).send({
-    message: "This library belongs to user" + req.user_id})
-})
-*/
+// ADD ITEMS TO LIBRARY PER USER. 
+// Used in Search component. 
+// Adds books to overal mylibrary and books_users, but only for 1 user.
+// if another user wants to add, shows duplicate entry error. How avoid?
+// NB - Need to pass userId when calling function on front-end
+router.post("/userlibrary/:id", ensureUserExists, async (req, res) => {
+  const { bookId } = req.body;
+  let uId = res.locals.user
+  const sql = `INSERT INTO mylibrary (bookId) VALUES ("${bookId}");
+  SELECT LAST_INSERT_ID();`;
+  try {
+    let results = await db(sql);
+    let newBookId = results.data[0].insertId;
+    if (uId) {
+      let vals = []; 
+      vals.push(`(${newBookId}, ${uId})`)
+      let sql = `INSERT INTO books_users (bId, uId)
+      VALUES ${vals.join(",")}`
+      await db(sql)
+    }
+    await getUserItems(req, res);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
+
+// DELETE ITEM BY ID PER USER -- Used in MyUsersLibrary page. 
+// Working on postman. Removing book via libraryId. NotGoogleBookId.
+// NB - Need to pass uId on front-end
+router.delete("/userlibrary/:id", ensureUserExists, async (req, res) => {
+  let uId = res.locals.user;
+  //const { bookToDelete } = req.body;
+  let bookToDelete = 31
+  try {
+    await db(`DELETE FROM books_users WHERE bId = ${bookToDelete} AND uId = ${uId};`);
+    await getUserItems(req, res);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 module.exports = router;
 

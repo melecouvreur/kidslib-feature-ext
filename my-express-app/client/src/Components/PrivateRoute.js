@@ -12,9 +12,9 @@ const [isLoggenIn, setIsLoggedIn] = useState(true)
 
 //let {userId, setUserId} = useContext(UserContext);// for multi-user func (WIP!)
 
-const changeId = (newId) => {
- //setUserId(newId)
-}
+//const changeId = (newId) => {
+//setUserId(newId)
+//}
 
 useEffect(() => {
     requestData();
@@ -44,8 +44,7 @@ const requestData = async () => {
           setIsLoggedIn(true)
           //console.log(isLoggenIn)
           //changeId(data.id)
-          //console.log(userId)
-          console.log("user_id" + data.id)
+          console.log("user_id:" , data.id)
         }
     
         } catch (error) {

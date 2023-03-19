@@ -14,8 +14,8 @@ function UserLibraryView() {
   let {userId} = useContext(UserContext);
 
   useEffect(() => {
-    fetchBooksUser()//Get all book from specific user
-    //requestUserBooks()
+    fetchUserBooks()//Get all book from specific user
+    fetchUserBooksbyID()
     console.log(userBooks, userId);
   }, []);
 
@@ -32,34 +32,36 @@ function UserLibraryView() {
       //Search Google using bookId from database
       let results = await fetch(`/mylibrary/searchById`, options);
       let data = await results.json();
-      //console.log(data); //individual objects with book details
+      console.log(data); //individual objects with book details
       setUserBooks((book) => [...book, data]); // Adding object of data to books array
       //Could add something here to alphabatize the books?
-      //console.log(books);
+      console.log(userBooks);
       setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
-
+ 
+   // WORKING
    // This function gets books FROM DATABASE for specific user via users_books juntion table
    // and loops through them, using the bookId to search the GOOGLE BOOKS API and return all book data
-   const fetchBooksUser = async () => {
+   const fetchUserBooks = async () => {
     setLoading(true);
     try { 
       //Get books from database for userId
       let id = userId
-      let results = await fetch(`users/library/${id}`); 
+      let results = await fetch(`users/userlibrary/${id}`); 
       let data = await results.json();
       let books = data.books
+      console.log(books) //returns array of books objects
       //Loop through books and search using bookId with the searchMyBooks function
       //Should return full book data from Google & set books as that data
       for (let i = 0; i < books.length; i++) {
-        console.log(books[i].bookId); //Seems to be accessing the bookId here
+        //console.log(books[i].bookId); //Seems to be accessing the bookId here
         await searchUserBooksById(books[i].bookId) ;//Use search function to look up book details using bookId
+        console.log(books[i].bookId)
       }
       console.log(userBooks);
-      console.log(userId)
       setLoading(false);
       return userBooks;
     } catch (err) {
@@ -72,56 +74,28 @@ function UserLibraryView() {
   ///Not Done ///
   //
 
-  const requestUserBooks = async () => {
-    let options = {
-      headers: {
-        authorization: "Bearer " + localStorage.getItem("id"),
-      },
-    }; 
-    try {
-      const result = await fetch("library/users", options);
-      const data = await result.json();
-
-      if (!result.ok) {
-      console.log(data.error);
-      //setIsLoggedIn(false)
-      setMessage(data.error)
-      console.log(message)
-      //console.log(isLoggenIn)
-    }
-      else {
-      console.log(data.message);
-      //setIsLoggedIn(true)
-      //console.log(isLoggenIn)
-    }
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-
 
   //FUNCTION TO GET DATABASE BOOKS BASED ON BOOKID FOR DELETE FUNCTION 
-  const fetchUserBooksbyID = async (bookId) => {
+  const fetchUserBooksbyID = async (book) => {
     setLoading(true);
-
     try {
-      console.log(bookId);
+      console.log({book});
       let id = userId
-      //Get all database books
-      let results = await fetch(`users/library/${id}`);
+      //Get all database books by user
+      let results = await fetch(`users/userlibrary/${id}`);
       let data = await results.json();
       let books = data.books
+      console.log(books)
       //Loop through books, look for bookId
       for (let i = 0; i < books.length; i++) {
-        if (bookId === books[i].bookId) {
-          let bookToDelete = books[i].id;
+        console.log(books[i].bookId)
+        if (book.id === books[i].bookId) {
+          let bookToDelete = books[i].libraryId;
           console.log(bookToDelete);
           return bookToDelete; //id of book to delete to be used in delete function below
-        }
+        } 
       }
-      setLoading(false);
+      //setLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -129,9 +103,9 @@ function UserLibraryView() {
 
   //DELETE FUNCTION -- USES ID RETURNED IN PREVIOUS FUNCTION TO DELETE BOOK FROM DATABASE
   const deleteUserBook = async (e) => {
-    setLoading(true);
+    //setLoading(true);
     let bookToDelete = await fetchUserBooksbyID(e); //id of book to delete
-    // console.log(bookToDelete);
+    console.log(bookToDelete);
     let options = {
       method: "DELETE",
     };
@@ -142,9 +116,34 @@ function UserLibraryView() {
       setLoading(false);
       window.location.reload(); //To manually refresh the page & update data -- idk why it wasn't working through the fetch functions
       setSuccess(true); //For success message upon delete
-      // setTimeout(function () {
-      //   setSuccess(false); //To remove success message after a few seconds -- not necessary with page refresh, though. Could be smoother.
-      // }, 5000);
+      setTimeout(function () {
+      setSuccess(false); //To remove success message after a few seconds -- not necessary with page refresh, though. Could be smoother.
+       }, 5000);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //DELETE FUNCTION -- USES ID RETURNED IN PREVIOUS FUNCTION TO DELETE BOOK FROM DATABASE
+  const deleteUserBookAlt = async (e) => {
+    //setLoading(true);
+    let bookToDelete = await fetchUserBooksbyID(e); //id of book to delete
+    console.log(bookToDelete);
+    let options = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bookToDelete),
+    };
+    try {
+      let results = await fetch(`users/userlibrary/${userId}`, options);
+      let data = await results.json();
+
+      setLoading(false);
+      window.location.reload(); //To manually refresh the page & update data -- idk why it wasn't working through the fetch functions
+      setSuccess(true); //For success message upon delete
+      setTimeout(function () {
+      setSuccess(false); //To remove success message after a few seconds -- not necessary with page refresh, though. Could be smoother.
+       }, 5000);
     } catch (err) {
       console.log(err);
     }
@@ -179,6 +178,7 @@ function UserLibraryView() {
               <div
                 className="col-lg-4 col-md-6 col-12 ps-3 pe-3 mt-5"
                 id="book"
+                
                 key={book.bookId + book.volumeInfo.title}
               >
                 <h5>{book.volumeInfo.title}</h5>
@@ -189,16 +189,18 @@ function UserLibraryView() {
               
          
                 <div className="row mt-4">
-                  <Link to={`${book.libraryId}`} >
+                  <Link to={`${book.id}`} >
                     <button id="seeMore" className="btn btn-primary col">
                       See More
                     </button>
                   </Link>
-                  <div id="deleteIcon" className="col" key={book.libraryId}>
+                  <div id="deleteIcon" className="col" key={book.id}>
                     <button
                       className="rounded btn btn-danger mt-2"
                       onClick={(e) => {
-                        deleteUserBook(book.libraryId);
+                        //deleteUserBook(book);
+                        deleteUserBookAlt(book);
+                        console.log(book.id)
                       }}
                     >
                       {" "}

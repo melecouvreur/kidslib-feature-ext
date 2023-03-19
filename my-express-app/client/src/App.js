@@ -35,8 +35,8 @@ let userObj = {userId, setUserId};
       <Route path="/"element={<DashBoard/>} />
       {/*UserLibraryComp is only to test multi-user funct. To check if different libraries are being shown for different users*/}
       <Route path="/userlibrary" element={<UserLibraryView/>}/>
+     
       <Route path="/private" element={<PrivateRoute/> }>
-      
           <Route path="" element={<Home/>}/>
           <Route path="myLibrary" element={<MyLibraryView />}  />
           <Route path="myLibrary/:id" element={<BookDetailView />}/>

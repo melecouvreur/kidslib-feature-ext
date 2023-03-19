@@ -23,7 +23,7 @@ const logout = () => {
         <div className="flex-row" >
       
        <div>
-       <NavLink to="/userlibrary"> User Library</NavLink>
+
           <nav className="navbar nav-masthead">
         <div className="px-4"> 
         <NavLink to="/" end
@@ -35,6 +35,19 @@ const logout = () => {
               onClick={logout}
               >
               <h5> Logout </h5>
+              </button> 
+            </NavLink>
+        </div>
+
+        <div className="px-4"> 
+        <NavLink to="/userlibrary" end
+        id="navbar"
+        className={({isActive}) => 
+        isActive ? activeClassName : undefined }>
+              <button 
+              className="btn"
+              >
+              <h5> User Library </h5>
               </button> 
             </NavLink>
         </div>
